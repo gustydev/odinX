@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  displayName   String // Default to username is not in Prisma (do it in user registration)
+  password      String
+  joinDate      DateTime @default(now())
+  email         String   @unique
+  profilePicUrl String?
+  bio           String?
+  admin         Boolean  @default(false)
+  // these require other models and will be added later:
+  // followers
+  // following
+  // posts
+  // comments 
+}
