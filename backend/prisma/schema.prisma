@@ -20,6 +20,8 @@ model User {
   demo          Boolean  @default(false)
   posts         Post[]
   likes         Like[]
+  followers     User[]   @relation("follows")
+  following     User[]   @relation("follows")
 }
 
 model Post {
