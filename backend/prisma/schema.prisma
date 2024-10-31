@@ -17,9 +17,30 @@ model User {
   profilePicUrl String?
   bio           String?
   admin         Boolean  @default(false)
-  // these require other models and will be added later:
-  // followers
-  // following
-  // posts
-  // comments 
+  demo          Boolean  @default(false)
+  posts         Post[]
+  likes         Like[]
+}
+
+model Post {
+  id            Int       @id @default(autoincrement())
+  content       String?
+  attachmentUrl String?
+  postDate      DateTime  @default(now())
+  editDate      DateTime?
+  author        User      @relation(fields: [authorId], references: [id])
+  authorId      Int
+  likes         Like[]
+  replies       Post[]    @relation("replies")
+  parentPost    Post?     @relation("replies", fields: [parentPostId], references: [id])
+  parentPostId  Int?
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  likedBy   User     @relation(fields: [likedById], references: [id])
+  likedById Int
+  date      DateTime @default(now())
 }
