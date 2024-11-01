@@ -13,7 +13,6 @@ model User {
   displayName   String  // Default to username is not in Prisma (do it in user registration)
   password      String
   joinDate      DateTime @default(now())
-  email         String   @unique
   profilePicUrl String?
   bio           String?
   admin         Boolean  @default(false)

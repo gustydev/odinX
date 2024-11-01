@@ -3,20 +3,14 @@ const prisma = require('../prisma/client');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler');
-const { validationResult } = require('express-validator');
 const { validateRegister } = require('../utils/validationChains');
-const { ValidationError } = require('gusty-custom-errors')
+const { checkIfValid } = require('gusty-middlewares')
 
 exports.register = [
     validateRegister,
+    checkIfValid,
 
     asyncHandler(async (req, res, next) => {
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            throw new ValidationError(errors.array());
-        }
-
         const hashedPass = await bcrypt.hash(req.body.password, 10)
 
         const user = await prisma.user.create({
