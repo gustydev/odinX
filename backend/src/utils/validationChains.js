@@ -12,7 +12,7 @@ exports.validateRegister = [
     .matches(/^[a-zA-Z0-9_]+$/)
     .withMessage('Username must have only alphanumeric characters (letters and numbers) and underscores')
     .custom(async (value) => {
-        const user = await prisma.user.findUnique({where: {username: value}})
+        const user = await prisma.user.findFirst({where: {username: {equals: value, mode: 'insensitive'}}})
         if (user) {
             throw new Error('Username already taken')
         } 
@@ -54,7 +54,7 @@ exports.validateLogin = [
     .withMessage('Username must be a string')
     .trim()
     .custom(async (value) => {
-        const user = await prisma.user.findUnique({where: {username: value}})
+        const user = await prisma.user.findFirst({where: {username: {equals: value, mode: 'insensitive'}}})
         if (!user) {
             throw new Error("User not found")
         }
@@ -66,7 +66,7 @@ exports.validateLogin = [
     .isLength({min: 8})
     .withMessage('Password must be at least 8 characters long')
     .custom(async (value, {req}) => {
-        const user = await prisma.user.findUnique({where: {username: req.body.username}})
+        const user = await prisma.user.findFirst({where: {username: {equals: req.body.username, mode: 'insensitive'}}})
         if (!user) {
             return false;
         }

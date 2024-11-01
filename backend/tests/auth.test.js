@@ -5,9 +5,9 @@ const prisma = require('../src/prisma/client');
 beforeAll(async() => {
     await prisma.user.create({
         data: {
-            username: 'taken',
+            username: 'taken_username',
             password: 'random1234',
-            displayName: 'im taken'
+            displayName: 'taken boy'
         }
     })
 })
@@ -39,7 +39,7 @@ describe('user register', () => {
 
     it('rejects taken username', async() => {
         await userRegister({
-            username: 'taken',
+            username: 'taken_username',
             password: 'test1234',
             confirmPassword: 'test1234'
         }, 400);
@@ -69,17 +69,37 @@ describe('user register', () => {
 describe('user login', () => {
     it('logs in user with valid credentials', async() => {
         await userRegister({
-            username: 'new_user',
+            username: 'New_User',
             password: 'testpass',
             confirmPassword: 'testpass'
         }, 200);
 
         const res = await userLogin({
-            username: 'new_user',
+            username: 'NEW_USER', // should be case insensitive
             password: 'testpass'
         }, 200);
 
         expect(res.body.user).not.toHaveProperty('password');
+        expect(res.body.user).toHaveProperty('id');
+        expect(res.body.message).toBe('Logged in successfully! Token expires in 3d')
         expect(res.body).toHaveProperty('token');
+    })
+
+    it('rejects invalid credentials for log in', async() => {
+        await userRegister({
+            username: 'usuario',
+            password: 'password',
+            confirmPassword: 'password'
+        }, 200);
+
+        await userLogin({
+            username: 'usuario',
+            password: 'wrongpass'
+        }, 400);
+
+        await userLogin({
+            username: 'testador',
+            password: 'password'
+        }, 400)
     })
 })

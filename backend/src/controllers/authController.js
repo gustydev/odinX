@@ -22,7 +22,7 @@ exports.register = [
             }
         })
 
-        return res.status(200).json({msg: 'User created successfully', user: {
+        return res.status(200).json({message: 'User created successfully', user: {
             id: user.id,
             username: user.username,
             displayName: user.displayName,
@@ -35,10 +35,10 @@ exports.login = [
     checkIfValid,
 
     asyncHandler(async (req,res,next) => {
-        const user = await prisma.user.findUnique({where: {username: req.body.username}, omit: {password: true}})
+        const user = await prisma.user.findFirst({where: {username: { equals: req.body.username, mode: 'insensitive' }}, omit: {password: true}})
         const expiry = user.demo ? '3h' : '3d';
         const token = jwt.sign({id: user.id}, process.env.SECRET, {expiresIn: expiry});
 
-        return res.status(200).json({msg: `Logged in successfully! Token expires in ${expiry}`, token, user})
+        return res.status(200).json({message: `Logged in successfully! Token expires in ${expiry}`, token, user})
     })
 ]
