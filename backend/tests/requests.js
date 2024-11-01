@@ -7,3 +7,11 @@ exports.userRegister = async function (data, status) {
         .send(data)
         .expect(status);
 }
+
+exports.userLogin = async function(data, status) {
+    return await request(app)
+        .post('/api/auth/login')
+        .expect('Content-Type', /json/)
+        .send(data)
+        .expect(status);
+}

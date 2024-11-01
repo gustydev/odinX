@@ -1,5 +1,6 @@
 const prisma = require('../prisma/client');
 const { body } = require('express-validator');
+const bcrypt = require('bcryptjs')
 
 exports.validateRegister = [
     body('username')
@@ -46,3 +47,32 @@ exports.validateRegister = [
     .isBoolean()
     .withMessage('Demo must be set as true or false if provided')
 ];
+
+exports.validateLogin = [
+    body('username')
+    .isString()
+    .withMessage('Username must be a string')
+    .trim()
+    .custom(async (value) => {
+        const user = await prisma.user.findUnique({where: {username: value}})
+        if (!user) {
+            throw new Error("User not found")
+        }
+    }),
+
+    body('password')
+    .isString()
+    .withMessage('Password must be a string')
+    .isLength({min: 8})
+    .withMessage('Password must be at least 8 characters long')
+    .custom(async (value, {req}) => {
+        const user = await prisma.user.findUnique({where: {username: req.body.username}})
+        if (!user) {
+            return false;
+        }
+
+        const match = await bcrypt.compare(value, user.password);
+
+        if (!match) { throw new Error('Incorrect password, please try again.')}
+    })
+]

@@ -1,5 +1,4 @@
-const { app, request } = require('./setup');
-const { userRegister } = require('./requests');
+const { userRegister, userLogin } = require('./requests');
 
 const prisma = require('../src/prisma/client');
 
@@ -64,5 +63,23 @@ describe('user register', () => {
             password: '12345678',
             confirmPassword: '1231234124124' // passwords don't match
         }, 400)    
+    })
+})
+
+describe('user login', () => {
+    it('logs in user with valid credentials', async() => {
+        await userRegister({
+            username: 'new_user',
+            password: 'testpass',
+            confirmPassword: 'testpass'
+        }, 200);
+
+        const res = await userLogin({
+            username: 'new_user',
+            password: 'testpass'
+        }, 200);
+
+        expect(res.body.user).not.toHaveProperty('password');
+        expect(res.body).toHaveProperty('token');
     })
 })
