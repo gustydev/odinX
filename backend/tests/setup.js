@@ -2,21 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const createError = require('http-errors');
-const cors = require('cors');
+const request = require('supertest');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const prisma = require('./prisma/client');
+const prisma = require('../src/prisma/client');
+const passport = require('passport')
 
-const authRoute = require('./routes/auth');
+const authRoute = require('../src/routes/auth')
 
-const corsOptions = {
-  // In production, use the front-end URL; in development, accept any
-  origin: (process.env.NODE_ENV === 'production') ? process.env.FRONTEND_URL : '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}
-
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
@@ -40,11 +33,6 @@ passport.use(
     }
   })
 );
-
-app.get('/', (req, res) => {
-    res.send('hi there :>')
-})
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -61,12 +49,11 @@ app.use((err, req, res, next) => {
         ...err
     };
 
-    if (process.env.NODE_ENV === 'development') {
-        console.error(error)
-    }
+    console.error(error)
 
     res.status(statusCode).json(error)
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {console.log(`App listening on port ${port}`)})
+module.exports = {
+    app, request
+}

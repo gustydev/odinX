@@ -17,13 +17,13 @@ exports.register = [
             data: {
                 username: req.body.username,
                 password: hashedPass,
-                displayName: req.body.displayName || undefined,
+                displayName: req.body.displayName || req.body.username,
                 demo: req.body.demo
             }
         })
 
         return res.status(200).json({msg: 'User created successfully', user: {
-            id: user._id,
+            id: user.id,
             username: user.username,
             displayName: user.displayName,
         }})
