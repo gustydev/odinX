@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const createError = require('http-errors');
 const cors = require('cors');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const prisma = require('../prisma/client');
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
@@ -15,6 +18,24 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
+
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.SECRET,
+};
+
+passport.use(
+  new JwtStrategy(opts, async (payload, done) => {
+    try {
+      const user = await prisma.user.findUnique({where: {id: payload.id}})
+      if (user) {
+        return done(null, true)
+      }
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
 
 app.get('/', (req, res) => {
     res.send('hi there :>')
