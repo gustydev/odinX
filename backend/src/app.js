@@ -5,7 +5,7 @@ const createError = require('http-errors');
 const cors = require('cors');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const prisma = require('../prisma/client');
+const prisma = require('./prisma/client');
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
