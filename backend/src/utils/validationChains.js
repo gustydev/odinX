@@ -76,3 +76,14 @@ exports.validateLogin = [
         if (!match) { throw new Error('Incorrect password, please try again.')}
     })
 ]
+
+exports.validateNewPost = [
+    body('content')
+    .isString()
+    .withMessage('Post content must be a string')
+    .trim()
+    .isLength({min: 1})
+    .withMessage('Post must have text content')
+    .isLength({max: 5000})
+    .withMessage('Post has a maximum length of 5000 characters'),
+];

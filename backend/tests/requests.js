@@ -15,3 +15,12 @@ exports.userLogin = async function(data, status) {
         .send(data)
         .expect(status);
 }
+
+exports.createPost = async function(data, token, status) {
+    return await request(app)
+        .post('/api/post')
+        .expect('Content-Type', /json/)
+        .set('Authorization', `Bearer ${token}`)
+        .send(data)
+        .expect(status)
+}
