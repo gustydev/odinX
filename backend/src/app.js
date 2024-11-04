@@ -6,6 +6,7 @@ const cors = require('cors');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const prisma = require('./prisma/client');
+const passport = require('passport')
 
 const authRoute = require('./routes/auth');
 
