@@ -56,6 +56,12 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json(error)
 });
 
+async function clearDB() {
+  await prisma.like.deleteMany();
+  await prisma.post.deleteMany();
+  await prisma.user.deleteMany();
+}
+
 module.exports = {
-    app, request
+    app, request, clearDB
 }

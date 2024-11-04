@@ -1,8 +1,11 @@
 const { userRegister, userLogin } = require('./requests');
+const { clearDB } = require('./setup');
 
 const prisma = require('../src/prisma/client');
 
 beforeAll(async() => {
+    await clearDB();
+
     await prisma.user.create({
         data: {
             username: 'taken_username',
@@ -13,7 +16,7 @@ beforeAll(async() => {
 })
 
 afterAll(async() => {
-    await prisma.user.deleteMany();
+    await clearDB();
 })
 
 describe('user register', () => {
