@@ -1,5 +1,6 @@
 const { userRegister, userLogin, createPost, likePost } = require('./requests');
 const { clearDB } = require('./setup');
+const prisma = require("../src/prisma/client");
 
 let tester;
 
@@ -35,7 +36,7 @@ describe('creating posts', () => {
         expect(res.body.post.authorId).toEqual(tester.user.id)
     })
 
-    it.only('likes and unlikes posts', async() => {
+    it('likes and unlikes posts', async() => {
         const res = await createPost({
             content: 'hello world!'
         }, tester.token, 200);
@@ -43,6 +44,15 @@ describe('creating posts', () => {
         const postId = res.body.post.id;
 
         const res2 = await likePost(postId, tester.token, 200);
-        console.log('AYYY: ', res2.body)
+        const like = res2.body.like;
+
+        expect(like.postId).toEqual(postId);
+        expect(like.likedById).toEqual(tester.user.id);
+        
+        expect(res2.body.post.likes.length).toBe(1);
+
+        const res3 = await likePost(postId, tester.token, 200);
+
+        expect(res3.body.post.likes.length).toBe(0);
     })
 })

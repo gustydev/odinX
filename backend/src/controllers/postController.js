@@ -20,14 +20,26 @@ exports.newPost = [
 ]
 
 exports.likePost = asyncHandler(async (req, res, next) => {
-    const like = await prisma.like.create({
-        data: {
-            postId: Number(req.params.postId),
-            likedById: req.user.id
-        }
-    });
+    const postAndLikedByIds = {
+        postId: Number(req.params.postId), 
+        likedById: req.user.id
+    }
 
-    const post = await prisma.post.findUnique({where: {id: Number(req.params.postId)}})
+    const findLike = await prisma.like.findFirst({ where: postAndLikedByIds })
+
+    let like;
+    
+    if (!findLike) {
+        like = await prisma.like.create({ data: postAndLikedByIds });
+    } else {
+        await prisma.like.deleteMany({
+            where: {
+                AND: [{ postId: Number(req.params.postId), likedById: req.user.id }]
+            }
+        })
+    }  
+
+    const post = await prisma.post.findUnique({where: {id: Number(req.params.postId)}, include: {likes: true}})
 
     return res.status(200).json({post, like});
 })
