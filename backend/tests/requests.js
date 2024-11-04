@@ -32,3 +32,12 @@ exports.likePost = async function(postId, token, status) {
         .set('Authorization', `Bearer ${token}`)
         .expect(status)
 }
+
+exports.replyToPost = async function(postId, data, token, status) {
+    return await request(app)
+        .post(`/api/post/${postId}/reply`)
+        .expect('Content-Type', /json/)
+        .set('Authorization', `Bearer ${token}`)
+        .send(data)
+        .expect(status);
+}

@@ -12,7 +12,7 @@ post.get('/:postId/likes')
 
 post.post('/', validateToken, controller.newPost) // post a new post
 
-post.post('/:postId/reply') // post a reply (which is itself a post) to a post
+post.post('/:postId/reply', validateToken, controller.replyToPost) // post a reply (which is itself a post) to a post
 post.post('/:postId/like', validateToken, controller.likePost) // like a post (or unlike!)
 
 post.put('/:postId') // edit a post

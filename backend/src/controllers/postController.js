@@ -43,3 +43,20 @@ exports.likePost = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json({post, like});
 })
+
+exports.replyToPost = [
+    validateNewPost,
+    checkIfValid,
+
+    asyncHandler(async (req, res, next) => {
+        const reply = await prisma.post.create({
+            data: {
+                content: req.body.content,
+                authorId: req.user.id,
+                parentPostId: Number(req.params.postId)
+            }
+        });
+
+        return res.status(200).json({message: 'Reply posted!', reply})
+    })
+]

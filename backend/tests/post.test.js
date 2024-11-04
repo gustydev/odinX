@@ -1,4 +1,4 @@
-const { userRegister, userLogin, createPost, likePost } = require('./requests');
+const { userRegister, userLogin, createPost, likePost, replyToPost } = require('./requests');
 const { clearDB } = require('./setup');
 const prisma = require("../src/prisma/client");
 
@@ -25,7 +25,7 @@ afterAll(async() => {
     await clearDB();
 })
 
-describe('creating posts', () => {
+describe('creating posts and replies', () => {
     it('creates valid post', async() => {
         const res = await createPost({
             content: 'hello world'
@@ -36,6 +36,29 @@ describe('creating posts', () => {
         expect(res.body.post.authorId).toEqual(tester.user.id)
     })
 
+    it('create replies to posts', async() => {
+        const res = await createPost({content: 'test'}, tester.token, 200);
+        const ogPostId = res.body.post.id;
+
+        const res2 = await replyToPost(ogPostId, {content: 'this is a reply'}, tester.token, 200);
+        expect(res2.body.reply.parentPostId).toEqual(ogPostId)
+    })
+
+    it('rejects invalid inputs in post/reply creation', async() => {
+        // content is non string
+        await createPost({content: 420}, tester.token, 400);
+
+        // content is too long
+        await createPost({content: 'A'.repeat(5001)}, tester.token, 400);
+
+        const res = await createPost({content: 'this post is valid'}, tester.token, 200);
+
+        // no content
+        await replyToPost(res.body.post.id, {content: ''}, tester.token, 400);
+    })
+})
+
+describe('interactions with posts', () => {
     it('likes and unlikes posts', async() => {
         const res = await createPost({
             content: 'hello world!'
