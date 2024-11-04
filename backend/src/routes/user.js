@@ -1,10 +1,11 @@
 const user = require('express').Router()
+const controller = require('../controllers/userController');
 
 // Note: all of these should require authentication
 
 user.get('/list') // List of users (add limit/pagination)
 
-user.get('/:userId') // user's details
+user.get('/:userId', controller.getUserById) // user's details
 user.get('/:userId/follows') // shows both following and followers
 user.get('/:userId/posts')
 user.get('/:userId/likes') // posts liked by user
