@@ -3,6 +3,41 @@ const { checkIfValid } = require("gusty-middlewares");
 const { validateNewPost } = require("../utils/validationChains");
 const prisma = require('../prisma/client');
 
+const likeAndReplyCounts = {
+    _count: {
+        select: { replies: true, likes: true }
+    }
+}
+
+exports.getPosts = asyncHandler(async (req, res, next) => {
+    const { page, limit, filter, sort = 'desc', replies = false } = req.query;
+
+    const posts = await prisma.post.findMany({
+        skip: (page - 1) * limit || undefined,
+        take: Number(limit) || undefined,
+        orderBy: {
+            postDate: sort
+        },
+        where: {
+            content: { contains: filter },
+            parentPostId: replies === false ? null : undefined
+            // don't include reply posts unless specified (undefined means the "where" is not considered, so replies are returned)
+        },
+        include: likeAndReplyCounts
+    })
+
+    res.status(200).json(posts);
+})
+
+exports.getPostById = asyncHandler(async (req, res, next) => {
+    const post = await prisma.post.findUnique({
+        where: { id: Number(req.params.postId) },
+        include: likeAndReplyCounts
+    });
+
+    res.status(200).json(post)
+})
+
 exports.newPost = [
     validateNewPost,
     checkIfValid,

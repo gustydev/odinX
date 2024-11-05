@@ -4,9 +4,9 @@ const controller = require('../controllers/postController');
 
 // require authentication for all
 
-post.get('/list') // list of all posts (limit and pagination!) (don't include replies unless specified, aka filter them out by default)
+post.get('/list', controller.getPosts) // list of all posts (limit and pagination!) (don't include replies unless specified, aka filter them out by default)
 
-post.get('/:postId')
+post.get('/:postId', controller.getPostById)
 post.get('/:postId/replies')
 post.get('/:postId/likes')
 

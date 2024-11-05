@@ -9,6 +9,7 @@ const prisma = require('./prisma/client');
 const passport = require('passport')
 
 const authRoute = require('./routes/auth');
+const postRoute = require("./routes/post")
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
 app.use('/api/auth', authRoute);
+app.use('/api/post', postRoute)
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
