@@ -38,6 +38,27 @@ exports.getPostById = asyncHandler(async (req, res, next) => {
     res.status(200).json(post)
 })
 
+exports.getPostReplies = asyncHandler(async (req, res, next) => {
+    const replies = await prisma.post.findUnique({
+        where: { id: Number(req.params.postId )},
+        select: { replies: { include: likeAndReplyCounts} }
+    })
+
+    res.status(200).json(replies)
+})
+
+exports.getPostLikes = asyncHandler(async (req, res, next) => {
+    const likes = await prisma.post.findUnique({
+        where: { id: Number(req.params.postId) },
+        select: { likes: { select: { likedBy: { select: { id: true, username: true, displayName: true }} }} }
+        // return the id, username and display name of users who liked the post
+    })
+
+    res.status(200).json(likes)
+})
+
+'lol lmao'
+
 exports.newPost = [
     validateNewPost,
     checkIfValid,
