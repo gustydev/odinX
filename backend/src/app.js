@@ -11,6 +11,7 @@ const passport = require('passport')
 const authRoute = require('./routes/auth');
 const postRoute = require("./routes/post")
 const userRoute = require('./routes/user');
+const { convertParamsToNumber } = require('./middlewares/convertParams');
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
@@ -45,10 +46,6 @@ passport.use(
     }
   })
 );
-
-app.get('/', (req, res) => {
-    res.send('hi there :>')
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

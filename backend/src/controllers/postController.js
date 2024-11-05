@@ -31,7 +31,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 
 exports.getPostById = asyncHandler(async (req, res, next) => {
     const post = await prisma.post.findUnique({
-        where: { id: Number(req.params.postId) },
+        where: { id: req.params.postId },
         include: likeAndReplyCounts
     });
 
@@ -88,7 +88,8 @@ exports.likePost = asyncHandler(async (req, res, next) => {
     } else {
         await prisma.like.deleteMany({
             where: {
-                AND: [{ postId: Number(req.params.postId), likedById: req.user.id }]
+                AND: [
+                    { postId: Number(req.params.postId), likedById: req.user.id }]
             }
         })
     }  
