@@ -10,6 +10,7 @@ const passport = require('passport')
 
 const authRoute = require('../src/routes/auth')
 const postRoute = require("../src/routes/post")
+const userRoute = require('../src/routes/user');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +18,7 @@ app.use(express.static('public'))
 
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute)
+app.use('/api/user', userRoute);
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

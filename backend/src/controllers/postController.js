@@ -57,8 +57,6 @@ exports.getPostLikes = asyncHandler(async (req, res, next) => {
     res.status(200).json(likes)
 })
 
-'lol lmao'
-
 exports.newPost = [
     validateNewPost,
     checkIfValid,

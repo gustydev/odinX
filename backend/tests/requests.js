@@ -41,3 +41,11 @@ exports.replyToPost = async function(postId, data, token, status) {
         .send(data)
         .expect(status);
 }
+
+exports.followUser = async function(userId, token, status) {
+    return await request(app)
+        .post(`/api/user/${userId}/follow`)
+        .expect('Content-Type', /json/)
+        .set("Authorization", `Bearer ${token}`)
+        .expect(status);
+}

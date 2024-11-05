@@ -10,6 +10,7 @@ const passport = require('passport')
 
 const authRoute = require('./routes/auth');
 const postRoute = require("./routes/post")
+const userRoute = require('./routes/user');
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
@@ -25,6 +26,7 @@ app.use(express.static('public'))
 
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute)
+app.use('/api/user', userRoute);
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

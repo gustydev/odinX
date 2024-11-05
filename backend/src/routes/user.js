@@ -10,10 +10,11 @@ user.get('/:userId', validateToken, controller.getUserById) // user's details
 user.get('/:userId/follows') // shows both following and followers
 user.get('/:userId/posts')
 user.get('/:userId/likes') // posts liked by user
-user.get('/:userId/replies') // posts that have a parent post
 
-user.post('/:userId/follow') // follow an user by id
+user.post('/:userId/follow', validateToken, controller.followUser) // follow an user by id
 
 user.put('/:userId') // update profile of user (display name, pfp, bio etc)
 
 user.delete('/:userId')
+
+module.exports = user;
