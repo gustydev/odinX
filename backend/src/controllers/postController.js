@@ -49,7 +49,7 @@ exports.getPostReplies = asyncHandler(async (req, res, next) => {
 
 exports.getPostLikes = asyncHandler(async (req, res, next) => {
     const likes = await prisma.post.findUnique({
-        where: { id: Number(req.params.postId) },
+        where: { id: req.params.postId },
         select: { likes: { select: { likedBy: { select: { id: true, username: true, displayName: true }} }} }
         // return the id, username and display name of users who liked the post
     })
@@ -75,7 +75,7 @@ exports.newPost = [
 
 exports.likePost = asyncHandler(async (req, res, next) => {
     const postAndLikedByIds = {
-        postId: Number(req.params.postId), 
+        postId: req.params.postId, 
         likedById: req.user.id
     }
 
@@ -89,12 +89,12 @@ exports.likePost = asyncHandler(async (req, res, next) => {
         await prisma.like.deleteMany({
             where: {
                 AND: [
-                    { postId: Number(req.params.postId), likedById: req.user.id }]
+                    { postId: req.params.postId, likedById: req.user.id }]
             }
         })
     }  
 
-    const post = await prisma.post.findUnique({where: {id: Number(req.params.postId)}, include: {likes: true}})
+    const post = await prisma.post.findUnique({where: {id: req.params.postId}, include: {likes: true}})
 
     return res.status(200).json({post, like});
 })
@@ -108,7 +108,7 @@ exports.replyToPost = [
             data: {
                 content: req.body.content,
                 authorId: req.user.id,
-                parentPostId: Number(req.params.postId)
+                parentPostId: req.params.postId
             }
         });
 
