@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form';
 
-export default function LoginForm() {
+export default function LoginForm( {onSubmit} ) {
     const { register, handleSubmit, formState: { errors} } = useForm();
-
-    const onSubmit = (data) => console.log(data); // instead of this, send a post request to the API of course
     
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="authForm">
@@ -16,10 +14,7 @@ export default function LoginForm() {
                         minLength: {value: 4, message: 'Minimum length: 4 characters'},
                         pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Only alphanumeric characters (letters, numbers, underscores) allowed' }
                     })}
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
+                    type="text" id="username" name="username" placeholder="Username" 
                     className={`form-control ${errors.username ? "is-invalid" : ""}`}
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
@@ -31,9 +26,7 @@ export default function LoginForm() {
                         required: 'Required', 
                         minLength: {value: 8, message: 'Minimum length: 8 characters'} 
                     })}
-                    type="password"
-                    id="password"
-                    name="password"
+                    type="password" id="password" name="password" 
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}
                 />
                 {errors.password && <span className="error">{errors.password.message}</span>}

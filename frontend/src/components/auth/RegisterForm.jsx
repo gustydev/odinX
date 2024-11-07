@@ -37,10 +37,7 @@ export default function RegisterForm() {
                         minLength: {value: 4, message: 'Minimum length: 4 characters'},
                         pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Only alphanumeric characters (letters, numbers, underscores) allowed' }
                     })}
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
+                    type="text" id="username" name="username" placeholder="Username" 
                     className={`form-control ${errors.username ? "is-invalid" : ""}`}
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
@@ -53,10 +50,7 @@ export default function RegisterForm() {
                         minLength: { value: 2, message: 'Minimum length: 2 characters' },
                         maxLength: { value: 30, message: 'Maximum length: 30 characters' }
                     })}
-                    type="text" 
-                    id='displayName'
-                    name='displayName'
-                    placeholder='Display name'
+                    type="text"  id='displayName' name='displayName' placeholder='Display name' 
                     className={`form-control ${errors.displayName ? "is-invalid" : ""}`}
                 />
                 {errors.displayName && <span className="error">{errors.displayName.message}</span>}
@@ -68,9 +62,7 @@ export default function RegisterForm() {
                         required: 'Required', 
                         minLength: {value: 8, message: 'Minimum length: 8 characters'} 
                     })}
-                    type="password"
-                    id="password"
-                    name="password"
+                    type="password" id="password" name="password" 
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}
                 />
                 {errors.password && <span className="error">{errors.password.message}</span>}
@@ -82,9 +74,7 @@ export default function RegisterForm() {
                         required: 'Required',
                         validate: value => value === getValues('password') || 'Passwords do not match'
                     })}
-                    type="password" 
-                    id='confirmPassword'
-                    name='confirmPassword'
+                    type="password" id='confirmPassword' name='confirmPassword' 
                     className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
                 />
                 {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}

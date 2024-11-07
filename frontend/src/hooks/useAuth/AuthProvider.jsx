@@ -34,7 +34,6 @@ export default function AuthProvider({ children }) {
       error.details.forEach((e) => {
         toast.error(e.msg);
       })
-      console.error(error);
       setError(error);
     }
   }
