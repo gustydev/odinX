@@ -3,6 +3,7 @@ import App from './App';
 import ProtectedRoute from './hooks/useAuth/ProtectedRoute';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import HomePage from './components/home/HomePage';
 
 const routes = [
     {
@@ -13,7 +14,7 @@ const routes = [
         { path: '/auth/login', element: <Login />},
         { path: '/auth/register', element: <Register/>},
         { element: <ProtectedRoute/>, children: [
-          // { index: true, element: <HomePage/> },
+          { index: true, element: <HomePage/> },
           // { path: '/post/:postId', element: <Post/> },
           // { path: '/user/:userId', element: <User/> },
         ]}
