@@ -1,9 +1,30 @@
 import { useForm } from 'react-hook-form';
+import { apiRequest, API_URL } from '../../utils/api';
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 export default function RegisterForm() {
     const { register, handleSubmit, getValues, formState: { errors} } = useForm();
+    const nav = useNavigate();
 
-    const onSubmit = (data) => console.log(data); // instead of this, send a post request to the API of course
+    async function onSubmit(data) {
+        try {
+            await apiRequest(`${API_URL}/auth/register`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            toast.success(`User ${data.username} registered successfully! Proceed to log in`)
+            nav('/auth/login')
+        } catch (err) {
+            err.details.forEach((e) => {
+                toast.error(e.msg);
+            })
+        }
+    } 
 
     return (
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +89,7 @@ export default function RegisterForm() {
                 />
                 {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}
             </div>
-            <button type="submit">Register</button>
+            <button type="submit" className='btn btn-primary'>Register</button>
         </form>
     )
 }

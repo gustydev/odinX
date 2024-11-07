@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import { apiRequest, API_URL } from "../../utils/api";
 import PropTypes from 'prop-types';
+import { toast } from "react-toastify";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
@@ -30,6 +31,9 @@ export default function AuthProvider({ children }) {
 
       navigate('/')
     } catch(error) {
+      error.details.forEach((e) => {
+        toast.error(e.msg);
+      })
       console.error(error);
       setError(error);
     }

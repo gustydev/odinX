@@ -10,8 +10,8 @@ const routes = [
       element: <App/>,
       errorElement: <ErrorPage/>,
       children: [
-        { path: 'login', element: <Login />},
-        { path: 'register', element: <Register/>},
+        { path: '/auth/login', element: <Login />},
+        { path: '/auth/register', element: <Register/>},
         { element: <ProtectedRoute/>, children: [
           // { index: true, element: <HomePage/> },
           // { path: '/post/:postId', element: <Post/> },
