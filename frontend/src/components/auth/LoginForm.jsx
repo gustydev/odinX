@@ -11,9 +11,10 @@ export default function LoginForm() {
                 <label htmlFor="username">Username*</label>
                 <input
                     {...register("username", { 
-                        required: 'This field is required', 
+                        required: 'Required', 
                         maxLength: {value: 30, message: 'Maximum length: 30 characters'}, 
-                        minLength: {value: 4, message: 'Minimum length: 4 characters'} 
+                        minLength: {value: 4, message: 'Minimum length: 4 characters'},
+                        pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Only alphanumeric characters (letters, numbers, underscores) allowed' }
                     })}
                     type="text"
                     id="username"
@@ -27,7 +28,7 @@ export default function LoginForm() {
                 <label htmlFor="password">Password*</label>
                 <input
                     {...register("password", { 
-                        required: 'This field is required', 
+                        required: 'Required', 
                         minLength: {value: 8, message: 'Minimum length: 8 characters'} 
                     })}
                     type="password"

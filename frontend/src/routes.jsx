@@ -2,6 +2,7 @@ import ErrorPage from './components/errors/ErrorPage'
 import App from './App';
 import ProtectedRoute from './hooks/useAuth/ProtectedRoute';
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 const routes = [
     {
@@ -10,7 +11,7 @@ const routes = [
       errorElement: <ErrorPage/>,
       children: [
         { path: 'login', element: <Login />},
-        // { path: 'register', element: <Register/>},
+        { path: 'register', element: <Register/>},
         { element: <ProtectedRoute/>, children: [
           // { index: true, element: <HomePage/> },
           // { path: '/post/:postId', element: <Post/> },
