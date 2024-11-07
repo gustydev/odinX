@@ -8,8 +8,8 @@ const routes = [
         { path: 'register', element: <Register/>},
         { element: <ProtectedRoute/>, children: [
           { index: true, element: <HomePage/> },
-          { path: '/post/:postId', element: <PostPage/> },
-          { path: '/user/:userId', element: <UserProfile/> },
+          { path: '/post/:postId', element: <Post/> },
+          { path: '/user/:userId', element: <User/> },
         ]}
       ]
     }
