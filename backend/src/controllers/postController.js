@@ -50,7 +50,7 @@ exports.getPostReplies = asyncHandler(async (req, res, next) => {
 exports.getPostLikes = asyncHandler(async (req, res, next) => {
     const likes = await prisma.post.findUnique({
         where: { id: req.params.postId },
-        select: { likes: { select: { likedBy: { select: { id: true, username: true, displayName: true }} }} }
+        select: { likes: { select: { likedBy: { select: { id: true, username: true, displayName: true } } } } }
         // return the id, username and display name of users who liked the post
     })
 
@@ -113,5 +113,19 @@ exports.replyToPost = [
         });
 
         return res.status(200).json({message: 'Reply posted!', reply})
+    })
+]
+
+exports.editPost = [
+    validateNewPost,
+    checkIfValid,
+
+    asyncHandler(async (req, res, next) => {
+        const post = await prisma.post.update({where: {id: req.params.postId}, data: {
+            content: req.body.content,
+            editDate: new Date()
+        }})
+
+        return res.status(200).json({message: 'Post updated', post})
     })
 ]

@@ -1,4 +1,4 @@
-const { userRegister, userLogin, createPost, likePost, replyToPost } = require('./requests');
+const { userRegister, userLogin, createPost, likePost, replyToPost, editPost } = require('./requests');
 const { clearDB } = require('./setup');
 const prisma = require("../src/prisma/client");
 
@@ -77,5 +77,27 @@ describe('interactions with posts', () => {
         const res3 = await likePost(postId, tester.token, 200);
 
         expect(res3.body.post.likes.length).toBe(0);
+    })
+
+    it('edit posts', async() => {
+        const res1 = await createPost({
+            content: 'hello world'
+        }, tester.token, 200);
+
+        const res2 = await editPost(res1.body.post.id, {
+            content: 'world hello'
+        }, tester.token, 200);
+
+        expect(res2.body.post.content).toEqual('world hello');
+        expect(res2.body.post.id).toEqual(res1.body.post.id);
+        expect(res2.body.post.editDate).toBeTruthy();
+
+        // editing a reply as well
+        const rep = await replyToPost(res2.body.post.id, {content: 'hey hey'}, tester.token, 200);
+
+        const rep2 = await editPost(rep.body.reply.id, {content: 'hi hi hi'}, tester.token, 200);
+
+        expect(rep2.body.post.parentPostId).toEqual(rep.body.reply.parentPostId);
+        expect(rep2.body.post.parentPostId).toEqual(res2.body.post.id);
     })
 })

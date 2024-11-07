@@ -14,7 +14,7 @@ post.post('/', validateToken, controller.newPost) // post a new post
 post.post('/:postId/reply', convertParams, validateToken, controller.replyToPost) // post a reply (which is itself a post) to a post
 post.post('/:postId/like', convertParams, validateToken, controller.likePost) // like or unlike a post 
 
-post.put('/:postId', convertParams) // edit a post
+post.put('/:postId', convertParams, validateToken, controller.editPost) // edit a post
 
 post.delete('/:postId', convertParams)
 

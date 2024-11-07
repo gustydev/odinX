@@ -49,3 +49,12 @@ exports.followUser = async function(userId, token, status) {
         .set("Authorization", `Bearer ${token}`)
         .expect(status);
 }
+
+exports.editPost = async function(postId, data, token, status) {
+    return await request(app)
+        .put(`/api/post/${postId}`)
+        .expect('Content-Type', /json/)
+        .set('Authorization', `Bearer ${token}`)
+        .send(data)
+        .expect(status);
+}
