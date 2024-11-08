@@ -9,13 +9,13 @@ export default function ProtectedRoute() {
     return (
         <main className='layout'>
             <div className='left-sidebar'>
-                A
+                
             </div>
             <div className="content">
                 <Outlet />
             </div>
             <div className="right-sidebar">
-                C
+                
             </div>
         </main>
     );
