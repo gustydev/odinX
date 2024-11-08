@@ -4,7 +4,7 @@ export default function TopBar() {
     const auth = useAuth();
 
     return (
-        <>
+        <div className='topbar'>
         <h1>Odinbook</h1>
         {auth.token && (
             <>
@@ -14,6 +14,6 @@ export default function TopBar() {
             </button>
             </>
         )}
-        </>
+        </div>
     )
 }

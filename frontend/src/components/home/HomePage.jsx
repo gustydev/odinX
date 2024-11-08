@@ -1,7 +1,9 @@
 export default function HomePage() {
     return (
-        <div>
-            hello world! (replace later with website front page)
-        </div>
+        <>
+            <div className='left-sidebar'>A</div>
+            <div className='content'>B</div>
+            <div className='right-sidebar'>C</div>
+        </>
     )
 }
