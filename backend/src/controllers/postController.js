@@ -3,15 +3,18 @@ const { checkIfValid } = require("gusty-middlewares");
 const { validateNewPost } = require("../utils/validationChains");
 const prisma = require('../prisma/client');
 
-const likeAndReplyCounts = {
+const postInclude = {
     _count: {
         select: { replies: true, likes: true }
+    },
+    author: {
+        select: { displayName: true, username: true, profilePicUrl: true }
     }
 }
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
     const { page, limit, filter, sort = 'desc', replies = false } = req.query;
-
+    
     const posts = await prisma.post.findMany({
         skip: (page - 1) * limit || undefined,
         take: Number(limit) || undefined,
@@ -23,7 +26,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
             parentPostId: replies === false ? null : undefined
             // don't include reply posts unless specified (undefined means the "where" is not considered, so replies are returned)
         },
-        include: likeAndReplyCounts
+        include: postInclude
     })
 
     res.status(200).json(posts);
@@ -32,7 +35,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 exports.getPostById = asyncHandler(async (req, res, next) => {
     const post = await prisma.post.findUnique({
         where: { id: req.params.postId },
-        include: likeAndReplyCounts
+        include: postInclude
     });
 
     res.status(200).json(post)
@@ -41,7 +44,7 @@ exports.getPostById = asyncHandler(async (req, res, next) => {
 exports.getPostReplies = asyncHandler(async (req, res, next) => {
     const replies = await prisma.post.findUnique({
         where: { id: Number(req.params.postId )},
-        select: { replies: { include: likeAndReplyCounts} }
+        select: { replies: { include: postInclude} }
     })
 
     res.status(200).json(replies)

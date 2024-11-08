@@ -1,23 +1,27 @@
 import { useState } from "react";
 import { useData } from "../../hooks/useData/useData";
+import Post from "../post/Post";
+
+const buttonStyle = 'btn btn-outline-dark rounded-0 '
 
 export default function HomePage() {
     const [tab, setTab] = useState('all');
     const { data: posts } = useData('post/list');
+    console.log(posts && posts[0])
 
     return (
         <div className='home'>
             <div className='btn-group d-flex'>
-                <button className={'btn btn-outline-dark ' +  (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
+                <button className={buttonStyle + (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
                     All posts
                 </button>
-                <button className={'btn btn-outline-dark ' + (tab === 'follows' ? 'active' : '')} onClick={() => setTab('follows')}>
+                <button className={buttonStyle + (tab === 'follows' ? 'active' : '')} onClick={() => setTab('follows')}>
                     Your following
                 </button>
             </div>
-            <div className='posts'>
-                {posts?.map((p) => {
-                    return <p key={p.id}>{p.content}</p>
+            <div className='posts d-flex flex-column gap-4 mt-4'>
+                {posts?.map((post) => {
+                    return <Post key={post.id} post={post} />
                 })}
             </div>
         </div>
