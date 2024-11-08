@@ -9,6 +9,24 @@ exports.getUserById = [
     })
 ]
 
+exports.getUsersList = asyncHandler(async (req, res, next) => {
+    const { page, limit, filter } = req.query;
+
+    const users = await prisma.user.findMany({
+        skip: (page - 1) * limit || undefined,
+        take: Number(limit) || undefined,
+        // where: {
+        //     OR: [
+        //         { displayName: { contains: filter } },
+        //         { username: { contains: filter } }
+        //     ]
+        // },
+        omit: {password: true}
+    });
+
+    return res.status(200).json(users);
+})
+
 exports.followUser = asyncHandler(async (req, res, next) => {
     if (req.params.userId === req.user.id) {
         const error = new Error('Cannot follow oneself');

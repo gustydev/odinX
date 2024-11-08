@@ -3,7 +3,7 @@ const { validateToken } = require('gusty-middlewares');
 const controller = require('../controllers/userController');
 const { convertParams } = require("../middlewares/convertParams");
 
-user.get('/list') // List of users (add limit/pagination)
+user.get('/list', validateToken, controller.getUsersList) // List of users (add limit/pagination)
 
 user.get('/:userId', convertParams, validateToken, controller.getUserById) // user's details
 user.get('/:userId/follows', convertParams) // shows both following and followers
