@@ -11,9 +11,7 @@ function App() {
       <header>
         <TopBar/>
       </header>
-      <main className='layout'>
-        <Outlet></Outlet>
-      </main>
+      <Outlet/>
       <ToastContainer position='top-center' autoClose={5000} closeOnClick={true} transition={Slide}/>
     </AuthProvider>
   )

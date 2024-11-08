@@ -1,6 +1,6 @@
 import ErrorPage from './components/errors/ErrorPage'
 import App from './App';
-import ProtectedRoute from './hooks/useAuth/ProtectedRoute';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import HomePage from './components/home/HomePage';

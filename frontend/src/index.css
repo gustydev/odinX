@@ -57,11 +57,11 @@ body {
     min-height: 100vh;
 }
 
-main {
+.layout, .login, .register {
     width: 100%;
     height: 100%;
     flex: 1;
-	background-color: antiquewhite;
+	background-color: rgb(224, 182, 127);
 }
 
 h1, h2, h2 {

@@ -17,13 +17,13 @@ export default function Login() {
     }
 
     return (
-        <div className='login'>
+        <main className='login'>
             <h2>Welcome!</h2>
             <LoginForm onSubmit={login}/>
             <Link to='/auth/register'>
                 <button className="btn btn-warning">Create an account</button>
             </Link>
             <button className='btn btn-success' onClick={loginDemo}>Use a demo account</button>
-        </div>
+        </main>
     )
 }
