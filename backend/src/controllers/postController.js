@@ -42,12 +42,12 @@ exports.getPostById = asyncHandler(async (req, res, next) => {
 })
 
 exports.getPostReplies = asyncHandler(async (req, res, next) => {
-    const replies = await prisma.post.findUnique({
+    const post = await prisma.post.findUnique({
         where: { id: Number(req.params.postId )},
         select: { replies: { include: postInclude} }
     })
 
-    res.status(200).json(replies)
+    res.status(200).json(post.replies) 
 })
 
 exports.getPostLikes = asyncHandler(async (req, res, next) => {

@@ -4,6 +4,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import HomePage from './components/home/HomePage';
+import PostPage from './components/post/PostPage';
 
 const routes = [
     {
@@ -15,7 +16,7 @@ const routes = [
         { path: '/auth/register', element: <Register/>},
         { element: <ProtectedRoute/>, children: [
           { index: true, element: <HomePage/> },
-          // { path: '/post/:postId', element: <Post/> },
+          { path: '/post/:postId', element: <PostPage/> },
           // { path: '/user/:userId', element: <User/> },
         ]}
       ]

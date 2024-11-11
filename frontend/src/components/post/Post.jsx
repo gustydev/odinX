@@ -2,6 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import useAuth from "../../hooks/useAuth/useAuth"
 import { likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Post( {post} ) {
     const auth = useAuth();

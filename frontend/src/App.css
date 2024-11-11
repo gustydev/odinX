@@ -29,3 +29,22 @@
     padding: 24px;
     gap: 4px;
 }
+
+.replies {
+    padding: 0 1vw;
+    border-left: 2px solid darkgoldenrod;
+}
+
+.post {
+    display: grid;
+    grid-template-rows: 0.5fr 3fr repeat(2, 1fr);
+}
+
+.authorInfo {
+    font-weight: bold;
+}
+
+.postStats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
