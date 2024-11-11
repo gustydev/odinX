@@ -47,7 +47,7 @@ exports.getPostReplies = asyncHandler(async (req, res, next) => {
         select: { replies: { include: postInclude} }
     })
 
-    res.status(200).json(post.replies) 
+    res.status(200).json(post.replies)  
 })
 
 exports.getPostLikes = asyncHandler(async (req, res, next) => {
@@ -112,7 +112,8 @@ exports.replyToPost = [
                 content: req.body.content,
                 authorId: req.user.id,
                 parentPostId: req.params.postId
-            }
+            },
+            include: postInclude
         });
 
         return res.status(200).json({message: 'Reply posted!', reply})

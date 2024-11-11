@@ -84,6 +84,6 @@ exports.validateNewPost = [
     .trim()
     .isLength({min: 1})
     .withMessage('Post must have text content')
-    .isLength({max: 5000})
-    .withMessage('Post has a maximum length of 5000 characters'),
+    .isLength({max: 500})
+    .withMessage('Post has a maximum length of 500 characters'),
 ];

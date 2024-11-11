@@ -31,9 +31,15 @@
 }
 
 .replies {
-    padding: 0 0.5vw;
-    border-left: 3px solid darkgoldenrod;
     margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.replies > .post {
+    border-left: 3px solid darkgoldenrod;
+    padding: 0 0.5vw;
 }
 
 .page-bar {
@@ -57,7 +63,8 @@
 
 .post {
     display: grid;
-    grid-template-rows: 0.5fr repeat(3, 1fr);
+    /* grid-template-rows: 0.5fr repeat(3, 1fr); */
+    line-break: anywhere;
 }
 
 .authorInfo {

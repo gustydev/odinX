@@ -57,6 +57,10 @@ io.on('connection', async(socket) => {
   socket.on('likePost', (postData) => {
     io.emit('likePost', postData)
   })
+
+  socket.on('postReply', (replyData) => {
+    io.emit('postReply', replyData)
+  })
 })
 
 // catch 404 and forward to error handler
