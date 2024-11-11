@@ -1,12 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const { createServer } = require('node:http');
 const createError = require('http-errors');
 const cors = require('cors');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const prisma = require('./prisma/client');
 const passport = require('passport')
+const { Server } = require('socket.io');
+
+const server = createServer(app);
 
 const authRoute = require('./routes/auth');
 const postRoute = require("./routes/post")
@@ -19,6 +23,8 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }
+
+const io = new Server(server);
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -47,6 +53,12 @@ passport.use(
   })
 );
 
+io.on('connection', async(socket) => {
+  socket.on('likePost', (postData) => {
+    io.emit('likePost', postData)
+  })
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -71,4 +83,4 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {console.log(`App listening on port ${port}`)})
+server.listen(port, () => {console.log(`Server running on port ${port}`)})

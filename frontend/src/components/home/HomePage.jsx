@@ -7,7 +7,6 @@ const buttonStyle = 'btn btn-outline-dark rounded-0 '
 export default function HomePage() {
     const [tab, setTab] = useState('all');
     const { data: posts } = useData('post/list');
-    console.log(posts && posts[0])
 
     return (
         <div className='home'>

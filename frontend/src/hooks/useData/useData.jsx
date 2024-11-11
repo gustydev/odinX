@@ -14,7 +14,7 @@ export function useData(path) {
         async function fetchData() {
             setLoading(true)
             try {
-                const data = await apiRequest(`${API_URL}/${path}`, {
+                const data = await apiRequest(`${API_URL}/api/${path}`, {
                     headers: {
                         'Authorization': `Bearer ${auth.token}`
                     }
