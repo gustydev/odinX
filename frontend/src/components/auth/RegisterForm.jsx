@@ -9,7 +9,7 @@ export default function RegisterForm() {
 
     async function onSubmit(data) {
         try {
-            await apiRequest(`${API_URL}/auth/register`, {
+            await apiRequest(`${API_URL}/api/auth/register`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

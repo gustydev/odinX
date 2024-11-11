@@ -11,7 +11,7 @@
 .layout {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    padding: 0 12vh;
+    padding: 0 25vh;
 }
 
 .left-sidebar, .right-sidebar {
@@ -35,9 +35,17 @@
     border-left: 2px solid darkgoldenrod;
 }
 
+.post-page {
+    padding: 2vh 2vw;
+}
+
+.reply-container > h2 {
+    margin: 8px 0;
+}
+
 .post {
     display: grid;
-    grid-template-rows: 0.5fr 3fr repeat(2, 1fr);
+    grid-template-rows: 0.5fr repeat(3, 1fr);
 }
 
 .authorInfo {

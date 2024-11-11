@@ -13,7 +13,7 @@ export default function AuthProvider({ children }) {
 
   async function userLogin(data) {
     try {
-      const res = await apiRequest(`${API_URL}/auth/login`, {
+      const res = await apiRequest(`${API_URL}/api/auth/login`, {
         method: 'post',
         headers: {
           "Content-Type": "application/json"

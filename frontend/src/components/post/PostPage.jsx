@@ -11,16 +11,16 @@ export default function PostPage() {
     if (postError || repliesError) return 'Error'
 
     return (
-        <>
-        <Post post={post}/>
-        <div className="reply-container">
-            <h2>Replies</h2>
-            <div className="replies">
-            {replies.map((reply) => {
-                return <Post key={reply.id} post={reply}/>
-            })}
+        <div className='post-page'>
+            <Post post={post}/>
+            <div className="reply-container">
+                <h2>Replies ({replies?.length})</h2>
+                <div className="replies">
+                {replies.map((reply) => {
+                    return <Post key={reply.id} post={reply}/>
+                })}
+                </div>
             </div>
         </div>
-        </>
     )
 }
