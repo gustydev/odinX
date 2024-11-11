@@ -31,16 +31,28 @@
 }
 
 .replies {
-    padding: 0 1vw;
-    border-left: 2px solid darkgoldenrod;
+    padding: 0 0.5vw;
+    border-left: 3px solid darkgoldenrod;
+    margin-top: 8px;
 }
 
-.post-page {
-    padding: 2vh 2vw;
+.page-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    border-bottom: 3px solid darkgoldenrod;
+    margin-bottom: 16px;
+    padding: 8px;
 }
 
-.reply-container > h2 {
-    margin: 8px 0;
+.postDate > a {
+    color: black;
+    text-decoration: none;
+}
+
+.postDate > a:hover {
+    text-decoration: underline;
 }
 
 .post {

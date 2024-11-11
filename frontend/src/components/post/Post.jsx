@@ -4,6 +4,8 @@ import { likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const buttonStyle = 'btn btn-outline-dark rounded-0 border-0'
+
 export default function Post( {post} ) {
     const auth = useAuth();
     const [socket] = useOutletContext();
@@ -31,15 +33,17 @@ export default function Post( {post} ) {
                 {post.content}
             </div>
             <div className='postDate'>
+                <Link to={`/post/${post.id}`}>
                 {new Date(post.postDate).toLocaleString()}
+                </Link>
             </div>
             <div className='postStats btn-group'>
-                <button className='btn btn-outline-dark rounded-0 border-0' onClick={() => {likePost(post.id, auth.token, socket)}}>
+                <button className={buttonStyle} onClick={() => {likePost(post.id, auth.token, socket)}}>
                     ❤️ {likes} 
-                </button> 
-                <button className='btn btn-outline-dark rounded-0 border-0'>
-                    🗫 {post._count.replies}
                 </button>
+                <Link to={`/post/${post.id}#reply`} className={buttonStyle}>
+                    🗫 {post._count.replies}
+                </Link>
             </div>
         </div>
     )

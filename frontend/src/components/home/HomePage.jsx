@@ -10,6 +10,9 @@ export default function HomePage() {
 
     return (
         <div className='home'>
+            <div className='page-bar'>
+                <h2>Home</h2>
+            </div>
             <div className='btn-group d-flex'>
                 <button className={buttonStyle + (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
                     All posts
