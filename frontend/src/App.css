@@ -20,6 +20,7 @@
 
 .content {
     background-color: rgb(255, 248, 180);
+    padding: 0 2vw;
 }
 
 .login, .register {
