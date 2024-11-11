@@ -11,7 +11,6 @@ export async function likePost(postId, token, socket) {
         })
 
         socket.emit('likePost', data.post);
-        console.log('huh')
     } catch (err) {
         console.error(err);
     }

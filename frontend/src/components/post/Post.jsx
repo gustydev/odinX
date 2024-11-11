@@ -14,13 +14,9 @@ export default function Post( {post} ) {
     useEffect(() => {
         socket.on('likePost', (postData) => {
             if (post.id === postData.id) {
-                setLikes(postData.likes.length)
+                setLikes(postData._count.likes)
             }
         })
-
-        return () => {
-            socket.off('likePost')
-        }
     }, [socket, post])
 
     return (

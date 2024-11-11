@@ -53,8 +53,8 @@ export default function PostPage() {
             <form onSubmit={handleSubmit(handlePostReply)} className='d-flex'>
                 <input 
                     {...register('content', {
-                        required: 'Content required',
-                        minLength: { value: 1, message: 'Required' },
+                        required: true,
+                        minLength: 1,
                         maxLength: { value: 500, message: 'Maximum: 500 characters'}
                     })}
                     type="text" id='content' name='content' placeholder='Write a reply...' maxLength={500} minLength={1}

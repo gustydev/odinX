@@ -97,7 +97,7 @@ exports.likePost = asyncHandler(async (req, res, next) => {
         })
     }  
 
-    const post = await prisma.post.findUnique({where: {id: req.params.postId}, include: {likes: true}})
+    const post = await prisma.post.findUnique({where: {id: req.params.postId}, include: postInclude})
 
     return res.status(200).json({post, like});
 })
