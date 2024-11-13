@@ -48,23 +48,23 @@ export default function PostPage() {
                 </div>
             </div>
             <Post post={post}/>
-            <form onSubmit={handleSubmit(handlePostReply)} className='d-flex'>
-                <input 
-                    {...register('content', {
-                        required: true,
-                        minLength: 1,
-                        maxLength: { value: 500, message: 'Maximum: 500 characters'}
-                    })}
-                    type="text" id='content' name='content' placeholder='Write a reply...' maxLength={500} minLength={1}
-                />
-                {errors.content && <span className="error">{errors.content.message}</span>}
-                <input type="submit" value="Post" className="btn btn-warning" />
-            </form>
-            <div className="replies">
+            <div className="replies mb-3">
                 {replies.map((reply) => {
                     return <Post key={reply.id} post={reply}/>
                 })}
             </div>
+            <form onSubmit={handleSubmit(handlePostReply)} className='form-group d-flex flex-column gap-1'>
+                <textarea 
+                    {...register('content', {
+                        required: true,
+                        minLength: 1,
+                        maxLength: {value: 500, message: 'Post cannot surpass 500 characters'}
+                    })} 
+                    type="text" id="content" name="content" placeholder="Speak what's on your mind..." minLength={1} maxLength={500} rows={1}
+                    className={`form-control ${errors.content ? "is-invalid" : ""}`}    
+                />
+                <input type="submit" value="Reply" className="btn btn-warning rounded-0 align-self-end" />
+            </form>
         </div>
     )
 }
