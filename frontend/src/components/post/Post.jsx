@@ -37,7 +37,7 @@ export default function Post( {post} ) {
                 <button className={buttonStyle} onClick={() => {likePost(post.id, auth.token, socket)}}>
                     ❤️ {likes} 
                 </button>
-                <Link to={`/post/${post.id}#reply`} className={buttonStyle}>
+                <Link to={`/post/${post.id}`} className={buttonStyle}>
                     🗫 {post._count.replies}
                 </Link>
             </div>
