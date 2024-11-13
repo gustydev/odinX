@@ -35,3 +35,22 @@ export async function postReply(postId, data, token, socket) {
         })
     }
 }
+
+export async function newPost(data, token) {
+    try {
+        await apiRequest(`${API_URL}/api/post`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+        location.reload()
+    } catch (err) {
+        console.error(err);
+        err.details.forEach((d) => {
+            toast.error(d.msg)
+        })
+    }
+}
