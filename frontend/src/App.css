@@ -16,6 +16,13 @@
 
 .left-sidebar, .right-sidebar {
     background-color: rgb(255, 224, 168);
+    padding: 1vh 1vw;
+}
+
+.left-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .content {

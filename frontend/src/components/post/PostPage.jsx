@@ -7,8 +7,6 @@ import { useForm } from "react-hook-form";
 import { postReply } from "../../utils/apiRequests";
 import useAuth from "../../hooks/useAuth/useAuth";
 
-const tabButtonStyle = 'btn btn-outline-dark fw-bold rounded-0'
-
 export default function PostPage() {
     const { postId } = useParams();
     const { data: post, setData: setPost, loading: loadingPost, error: postError } = useData(`post/${postId}`);
@@ -42,8 +40,7 @@ export default function PostPage() {
             <div className='page-bar'>
                 <h2>Post</h2>
                 <div className='btn-group d-flex'>
-                    <button onClick={() => navigate(-1)} className={tabButtonStyle}>↰</button>
-                    <button onClick={() => navigate('/')} className={tabButtonStyle}>⌂</button>
+                    <button onClick={() => navigate(-1)} className='btn btn-outline-dark fw-bold rounded-0'>↰</button>
                 </div>
             </div>
             <Post post={post}/>
