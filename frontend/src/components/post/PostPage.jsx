@@ -40,7 +40,11 @@ export default function PostPage() {
             <div className='page-bar'>
                 <h2>Post</h2>
                 <div className='btn-group d-flex'>
-                    <button onClick={() => navigate(-1)} className='btn btn-outline-dark fw-bold rounded-0'>↰</button>
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className={'btn btn-outline-dark fw-bold rounded-0 btn-sm ' + (!post.parentPostId && 'invisible')}>
+                        ←
+                    </button>
                 </div>
             </div>
             <Post post={post}/>
