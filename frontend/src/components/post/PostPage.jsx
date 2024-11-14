@@ -45,9 +45,9 @@ export default function PostPage() {
                 <h2>Post</h2>
                 <div className='btn-group d-flex'>
                     <button 
-                        onClick={() => navigate(-1)} 
+                        onClick={() => navigate(`/post/${post.parentPostId}`)} 
                         className={'btn btn-outline-dark fw-bold rounded-0 btn-sm ' + (!post.parentPostId && 'invisible')}>
-                        ←
+                        ↩️
                     </button>
                 </div>
             </div>
