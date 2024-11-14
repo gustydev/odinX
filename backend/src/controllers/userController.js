@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
+const { validateProfileEdit } = require("../utils/validationChains");
 
 const postInclude = {
     _count: {
@@ -99,3 +100,20 @@ exports.followUser = asyncHandler(async (req, res, next) => {
 
     res.status(200).json(user)
 })
+
+exports.editProfile = [
+    validateProfileEdit,
+
+    asyncHandler(async (req, res, next) => {
+        const current = await prisma.user.findUnique({where: {id: req.params.userId}});
+        
+        const user = await prisma.user.update({...userQuery, where: { id: req.params.userId },
+            data: {
+                displayName: req.body.displayName || current.username,
+                bio: req.body.bio
+            }
+        });
+
+        return res.status(200).json(user);
+    })
+];

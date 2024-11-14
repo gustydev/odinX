@@ -13,7 +13,7 @@ user.get('/:userId/likes', convertParams) // posts liked by user
 
 user.post('/:userId/follow', convertParams, validateToken, controller.followUser) // follow an user by id
 
-user.put('/:userId', convertParams) // update profile of user (display name, pfp, bio etc)
+user.put('/:userId', convertParams, validateToken, controller.editProfile) // update profile of user (display name, pfp, bio etc)
 
 user.delete('/:userId', convertParams)
 

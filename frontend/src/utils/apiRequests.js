@@ -30,7 +30,7 @@ export async function postReply(postId, data, token, socket) {
         socket.emit('postReply', res.reply)
     } catch (err) {
         console.error(err);
-        err.details.forEach((d) => {
+        err.details?.forEach((d) => {
             toast.error(d.msg)
         })
     }
@@ -49,7 +49,7 @@ export async function newPost(data, token) {
         window.location = `/post/${res.post.id}`
     } catch (err) {
         console.error(err);
-        err.details.forEach((d) => {
+        err.details?.forEach((d) => {
             toast.error(d.msg)
         })
     }
@@ -68,5 +68,24 @@ export async function followUser(userId, token, socket) {
     } catch (err) {
         console.error(err);
         toast.error(err.message);
+    }
+}
+
+export async function editProfile(userId, data, token) {
+    try {
+        await apiRequest(`${API_URL}/api/user/${userId}`, {
+            method: 'put',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        location.reload()
+    } catch (err) {
+        console.error(err);
+        err.details?.forEach((d) => {
+            toast.error(d.msg)
+        })
     }
 }

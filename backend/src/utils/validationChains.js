@@ -87,3 +87,22 @@ exports.validateNewPost = [
     .isLength({max: 500})
     .withMessage('Post has a maximum length of 500 characters'),
 ];
+
+exports.validateProfileEdit = [
+    body('displayName')
+    .optional({values: 'falsy'}) // considers falsy values optional (includes empty strings like "")
+    .isString()
+    .withMessage('Display name must be a string')
+    .trim()
+    .isLength({min: 2, max: 30})
+    .withMessage('Display name must be between 2 and 30 characters'),
+
+
+    body('bio')
+    .optional({values: 'falsy'})
+    .isString()
+    .withMessage("Bio must be a string")
+    .trim()
+    .isLength({max: 250})
+    .withMessage('Bio must have at most 250 characters')
+]

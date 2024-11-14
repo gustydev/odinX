@@ -1,10 +1,15 @@
 import { useForm } from "react-hook-form";
+import { editProfile } from "../../utils/apiRequests";
 
 export default function EditProfileForm( {auth, setEditFormActive} ) {
     const { register, handleSubmit, formState: { errors} } = useForm();
 
+    async function submitEdit(data) {
+        await editProfile(auth.user.id, data, auth.token)
+    }
+
     return (
-        <form className='modal-form'>
+        <form className='modal-form' onSubmit={handleSubmit(submitEdit)}>
             <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setEditFormActive(false)}>X</button>
             <h2>🖉 Edit Profile</h2>
             <div className="form-group">
