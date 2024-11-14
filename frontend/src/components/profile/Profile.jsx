@@ -5,16 +5,16 @@ import FetchError from "../errors/FetchError";
 import PostList from "../post/PostList";
 import { useState } from "react";
 
+const buttonStyle = 'btn btn-outline-dark rounded-0 '
+
 export default function Profile() {
     const { userId } = useParams();
     const [replies, setReplies] = useState(false);
     const { data: user, loading: userLoading, error: userError } = useData(`user/${userId}`);
     const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?replies=${replies}`);
-    console.log(posts)
 
-    if (userLoading || postsLoading) return <Loading/>
+    if (userLoading) return <Loading/>
     if (userError) return <FetchError error={userError} />
-    if (postsError) return <FetchError error={postsError} />
 
     return (
         <div className="user-profile">
@@ -29,15 +29,15 @@ export default function Profile() {
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>
             </div>
-            <div className='btn-group d-flex'>
-                <button className="btn btn-primary">
+            <div className='btn-group d-flex mt-3'>
+                <button className={buttonStyle + (!replies ? 'active' : '')} onClick={() => setReplies(false)}>
                     Posts
                 </button>
-                <button className="btn btn-primary">
+                <button className={buttonStyle + (replies ? 'active' : '')} onClick={() => setReplies(true)}>
                     Replies
                 </button>
             </div>
-            <PostList posts={posts} />
+            {postsLoading? <Loading/> : postsError ? <FetchError error={postsError} /> : <PostList posts={posts} />}
         </div>
     )
 }
