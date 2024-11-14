@@ -8,7 +8,7 @@ export default function FetchError( {error} ) {
         <div className='fetchError'>
             <h2>Error</h2>
             <div>
-                {error?.message ? error.message : `Failed to fetch data.`}
+                {error?.message ? error.message : 'Failed to fetch data. Please try again later.'}
             </div>
             {error?.statusCode && (
                 <div>Status: {error.statusCode}</div>

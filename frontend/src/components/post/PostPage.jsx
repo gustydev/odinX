@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { postReply } from "../../utils/apiRequests";
 import useAuth from "../../hooks/useAuth/useAuth";
+import Loading from '../loading/Loading';
+import FetchError from '../errors/FetchError';
 
 export default function PostPage() {
     const { postId } = useParams();
@@ -32,8 +34,9 @@ export default function PostPage() {
         await postReply(postId, data, auth.token, socket)
     }
 
-    if (loadingPost || loadingReplies) return 'Loading'
-    if (postError || repliesError) return 'Error'
+    if (loadingPost || loadingReplies) return <Loading />
+    if (postError) return <FetchError error={postError} />
+    if (repliesError) return <FetchError error={repliesError} />
 
     return (
         <div className='post-page'>

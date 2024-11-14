@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useData } from "../../hooks/useData/useData";
 import Post from "../post/Post";
+import Loading from '../loading/Loading';
+import FetchError from '../errors/FetchError';
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 '
 
 export default function HomePage() {
     const [tab, setTab] = useState('all');
-    const { data: posts } = useData('post/list');
+    const { data: posts, loading, error } = useData('post/list');
+
+    if (loading) return <Loading />
+    if (error) return <FetchError error={error}/>
 
     return (
         <div className='home'>
