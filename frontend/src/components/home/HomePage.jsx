@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useData } from "../../hooks/useData/useData";
-import Post from "../post/Post";
 import Loading from '../loading/Loading';
 import FetchError from '../errors/FetchError';
 import PostList from "../post/PostList";

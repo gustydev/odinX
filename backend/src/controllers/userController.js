@@ -21,7 +21,9 @@ exports.getUserById = [
                         followers: true,
                         following: true
                     }
-                }
+                },
+                followers: { select: { id: true } },
+                following: { select: { id: true } }
             }
         })
 
