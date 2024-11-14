@@ -54,3 +54,19 @@ export async function newPost(data, token) {
         })
     }
 }
+
+export async function followUser(userId, token, socket) {
+    try {
+        const data = await apiRequest(`${API_URL}/api/user/${userId}/follow`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        socket.emit('followUser', data)
+    } catch (err) {
+        console.error(err);
+        toast.error(err.message);
+    }
+}

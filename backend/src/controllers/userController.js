@@ -10,22 +10,23 @@ const postInclude = {
     }
 }
 
+const userQuery = {
+    omit: {password: true},
+    include: {
+        _count: {
+            select: {
+                followers: true,
+                following: true
+            }
+        },
+        followers: { select: { id: true } },
+        following: { select: { id: true } }
+    }
+}
+
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
-        const user = await prisma.user.findUnique({
-            where: {id: req.params.userId}, 
-            omit: {password: true},
-            include: {
-                _count: {
-                    select: {
-                        followers: true,
-                        following: true
-                    }
-                },
-                followers: { select: { id: true } },
-                following: { select: { id: true } }
-            }
-        })
+        const user = await prisma.user.findUnique({...userQuery, where: { id: req.params.userId }})
 
         return res.status(200).json(user);
     })
@@ -88,18 +89,13 @@ exports.followUser = asyncHandler(async (req, res, next) => {
         }
     }) 
 
-    const user = await prisma.user.update({
+    const user = await prisma.user.update({...userQuery, 
         where: { id: req.params.userId },
         data: {
             followers: {
                 [checkFollow ? 'disconnect' : 'connect']: { id: req.user.id }
             }
-        },
-        include: {
-            followers: { omit: { password: true } }
-        },
-        omit: { password: true }
-    });
+    }});
 
     res.status(200).json(user)
 })

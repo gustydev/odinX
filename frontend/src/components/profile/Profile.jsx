@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData/useData";
 import Loading from "../loading/Loading";
 import FetchError from "../errors/FetchError";
 import PostList from "../post/PostList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
+import { followUser } from "../../utils/apiRequests";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 '
 const actionButtonStyle = buttonStyle + 'btn-sm position-absolute '
@@ -12,13 +13,26 @@ const actionButtonStyle = buttonStyle + 'btn-sm position-absolute '
 export default function Profile() {
     const { userId } = useParams();
     const [replies, setReplies] = useState(false);
-    const { data: user, loading: userLoading, error: userError } = useData(`user/${userId}`);
+    const { data: user, setData: setUser, loading: userLoading, error: userError } = useData(`user/${userId}`);
     const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?replies=${replies}`);
     const auth = useAuth();
+    const [socket] = useOutletContext()
+
+    useEffect(() => {
+        socket.on('followUser', (userData) => {
+            if (userData.id === Number(userId)) {
+                setUser(userData)
+            }        
+        })
+
+        return () => {
+            socket.off('followUser')
+        }
+    }, [socket, userId, setUser])
 
     if (userLoading) return <Loading/>
     if (userError) return <FetchError error={userError} />
-    console.log(user)
+
     return (
         <div className="user-profile">
             <div className="page-bar">
@@ -33,8 +47,8 @@ export default function Profile() {
                 <p>{user._count.following} following</p>
                 {auth.user.id === user.id && <button className={actionButtonStyle + 'top-0 end-0'}>Edit 🖉</button>}
                 {auth.user.id !== user.id && (
-                    <button className={actionButtonStyle + 'bottom-0 end-0'}>
-                        {user.followers.find((follower) => follower.id === auth.user.id) ? 'Unfollow' : 'Follow'}
+                    <button className={actionButtonStyle + 'bottom-0 end-0'} onClick={() => followUser(userId, auth.token, socket)}>
+                        {user.followers.find((follower) => follower.id === auth.user.id) ? '✖ Unfollow' : '✚ Follow'}
                     </button>
                 )}
             </div>

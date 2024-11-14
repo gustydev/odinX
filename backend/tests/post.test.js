@@ -72,11 +72,11 @@ describe('interactions with posts', () => {
         expect(like.postId).toEqual(postId);
         expect(like.likedById).toEqual(tester.user.id);
         
-        expect(res2.body.post.likes.length).toBe(1);
+        expect(res2.body.post._count.likes).toBe(1);
 
         const res3 = await likePost(postId, tester.token, 200);
 
-        expect(res3.body.post.likes.length).toBe(0);
+        expect(res3.body.post._count.likes).toBe(0);
     })
 
     it('edit posts', async() => {

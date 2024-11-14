@@ -61,6 +61,10 @@ io.on('connection', async(socket) => {
   socket.on('postReply', (replyData) => {
     io.emit('postReply', replyData)
   })
+
+  socket.on('followUser', (userData) => {
+    io.emit('followUser', userData)
+  })
 })
 
 // catch 404 and forward to error handler
