@@ -83,7 +83,6 @@ export async function editProfile(userId, data, token) {
         })
         location.reload()
     } catch (err) {
-        console.error(err);
         err.details?.forEach((d) => {
             toast.error(d.msg)
         })

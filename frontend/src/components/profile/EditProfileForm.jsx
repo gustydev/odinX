@@ -20,10 +20,10 @@ export default function EditProfileForm( {auth, setEditFormActive} ) {
                 <input 
                 {...register('displayName', {
                     required: false,
-                    minLength: 2,
+                    minLength: { value: 2, message: 'Minimum: 1 character' },
                     maxLength: { value: 30, message: 'Maximum: 30 characters'}
                 })}
-                type="text" name='displayName' id='displayName' placeholder='John Doe' minLength={2} maxLength={30} 
+                type="text" name='displayName' id='displayName' placeholder='John Doe' maxLength={30}
                 className={`form-control ${errors.displayName ? "is-invalid" : ""}`}   
                 />
                 {errors.displayName && <span className="error">{errors.displayName.message}</span>}

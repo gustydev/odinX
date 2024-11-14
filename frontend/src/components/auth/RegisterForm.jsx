@@ -37,7 +37,7 @@ export default function RegisterForm() {
                         minLength: {value: 4, message: 'Minimum length: 4 characters'},
                         pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Only alphanumeric characters (letters, numbers, underscores) allowed' }
                     })}
-                    type="text" id="username" name="username" placeholder="Username" 
+                    type="text" id="username" name="username" placeholder="Username" maxLength={30}
                     className={`form-control ${errors.username ? "is-invalid" : ""}`}
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
@@ -47,10 +47,10 @@ export default function RegisterForm() {
                 <input 
                     {...register('displayName', {
                         required: false,
-                        minLength: { value: 2, message: 'Minimum length: 2 characters' },
+                        minLength: { value: 2, message: 'Minimum length: 1 character' },
                         maxLength: { value: 30, message: 'Maximum length: 30 characters' }
                     })}
-                    type="text"  id='displayName' name='displayName' placeholder='Display name' 
+                    type="text"  id='displayName' name='displayName' placeholder='Display name' maxLength={30}
                     className={`form-control ${errors.displayName ? "is-invalid" : ""}`}
                 />
                 {errors.displayName && <span className="error">{errors.displayName.message}</span>}
@@ -60,7 +60,8 @@ export default function RegisterForm() {
                 <input 
                     {...register("password", { 
                         required: 'Required', 
-                        minLength: {value: 8, message: 'Minimum length: 8 characters'} 
+                        minLength: {value: 8, message: 'Minimum length: 8 characters'},
+                        maxLength: {value: 100, message: 'Maximum length: 100 characters'} 
                     })}
                     type="password" id="password" name="password" 
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}

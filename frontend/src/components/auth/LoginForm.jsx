@@ -24,7 +24,8 @@ export default function LoginForm( {onSubmit} ) {
                 <input
                     {...register("password", { 
                         required: 'Required', 
-                        minLength: {value: 8, message: 'Minimum length: 8 characters'} 
+                        minLength: {value: 8, message: 'Minimum length: 8 characters'},
+                        maxLength: {value: 100, message: 'Maximum length: 100 characters'} 
                     })}
                     type="password" id="password" name="password" 
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}

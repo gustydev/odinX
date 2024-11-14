@@ -23,7 +23,9 @@ exports.validateRegister = [
     .withMessage('Password must be a string')
     .trim()
     .isLength({min: 8})
-    .withMessage('Password must be at least 8 characters long'),
+    .withMessage('Password must be at least 8 characters long')
+    .isLength({max: 100})
+    .withMessage('Password must be at most 100 characters long'),
 
     body('confirmPassword')
     .trim()
@@ -39,8 +41,8 @@ exports.validateRegister = [
     .isString()
     .withMessage('Display name must be a string')
     .trim()
-    .isLength({min: 2, max: 30})
-    .withMessage('Display name must be between 2 and 30 characters'),
+    .isLength({min: 1, max: 30})
+    .withMessage('Display name must have at most 30 characters'),
 
     body('demo')
     .optional()
@@ -65,6 +67,8 @@ exports.validateLogin = [
     .withMessage('Password must be a string')
     .isLength({min: 8})
     .withMessage('Password must be at least 8 characters long')
+    .isLength({max: 100})
+    .withMessage('Password must at most 100 characters long')
     .custom(async (value, {req}) => {
         const user = await prisma.user.findFirst({where: {username: {equals: req.body.username, mode: 'insensitive'}}})
         if (!user) {
@@ -94,9 +98,8 @@ exports.validateProfileEdit = [
     .isString()
     .withMessage('Display name must be a string')
     .trim()
-    .isLength({min: 2, max: 30})
-    .withMessage('Display name must be between 2 and 30 characters'),
-
+    .isLength({min: 1, max: 30})
+    .withMessage('Display name must have at most 30 characters'),
 
     body('bio')
     .optional({values: 'falsy'})
