@@ -6,13 +6,15 @@ import PostList from "../post/PostList";
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import { followUser } from "../../utils/apiRequests";
+import EditProfileForm from "./EditProfileForm";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 '
-const actionButtonStyle = buttonStyle + 'btn-sm position-absolute '
+const actionButtonStyle = buttonStyle + 'btn-sm position-absolute top-0 end-0'
 
 export default function Profile() {
     const { userId } = useParams();
     const [replies, setReplies] = useState(false);
+    const [editFormActive, setEditFormActive] = useState(false);
     const { data: user, setData: setUser, loading: userLoading, error: userError } = useData(`user/${userId}`);
     const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?replies=${replies}`);
     const auth = useAuth();
@@ -45,9 +47,9 @@ export default function Profile() {
                 <p>Member since {new Date(user.joinDate).toLocaleDateString()}</p>
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>
-                {auth.user.id === user.id && <button className={actionButtonStyle + 'top-0 end-0'}>Edit 🖉</button>}
+                {auth.user.id === user.id && <button className={actionButtonStyle} onClick={() => setEditFormActive(true)}>🖉 Edit</button>}
                 {auth.user.id !== user.id && (
-                    <button className={actionButtonStyle + 'bottom-0 end-0'} onClick={() => followUser(userId, auth.token, socket)}>
+                    <button className={actionButtonStyle} onClick={() => followUser(userId, auth.token, socket)}>
                         {user.followers.find((follower) => follower.id === auth.user.id) ? '✖ Unfollow' : '✚ Follow'}
                     </button>
                 )}
@@ -61,6 +63,9 @@ export default function Profile() {
                 </button>
             </div>
             {postsLoading? <Loading/> : postsError ? <FetchError error={postsError} /> : <PostList posts={posts} />}
+            <div className={"modal " + (editFormActive ? 'd-block' : 'd-none')}>
+            {editFormActive && <EditProfileForm auth={auth} setEditFormActive={setEditFormActive} />}
+            </div>
         </div>
     )
 }

@@ -9,7 +9,7 @@ export default function NewPostForm( {auth, setPostFormActive} ) {
     }
 
     return (
-        <form className='post-form' onSubmit={handleSubmit(handleNewPost)}>
+        <form className='modal-form' onSubmit={handleSubmit(handleNewPost)}>
             <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setPostFormActive(false)}>X</button>
             <div className='form-group'>
                 <label htmlFor="content" className='mb-3'>

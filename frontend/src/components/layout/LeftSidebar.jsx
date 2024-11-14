@@ -27,7 +27,7 @@ export default function LeftSidebar() {
                     👤 Profile
                 </button>
             </div>
-            <button className={buttonStyle} onClick={() => setPostFormActive(true)}>
+            <button className='btn btn-primary fw-bold rounded-0' onClick={() => setPostFormActive(true)}>
                 🖉 New Post
             </button>
             <div>
