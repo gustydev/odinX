@@ -3,7 +3,18 @@ const prisma = require('../prisma/client');
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
-        const user = await prisma.user.findUnique({where: {id: req.params.userId}, omit: {password: true}})
+        const user = await prisma.user.findUnique({
+            where: {id: req.params.userId}, 
+            omit: {password: true},
+            include: {
+                _count: {
+                    select: {
+                        followers: true,
+                        following: true
+                    }
+                }
+            }
+        })
 
         return res.status(200).json(user);
     })
