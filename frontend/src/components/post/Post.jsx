@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import useAuth from "../../hooks/useAuth/useAuth"
 import { likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
@@ -10,6 +10,13 @@ export default function Post( {post} ) {
     const auth = useAuth();
     const [socket] = useOutletContext();
     const [likes, setLikes] = useState(post._count.likes);
+    const location = useLocation();
+    let truncate = true;
+
+    if (location.pathname === `/post/${post.id}`) {
+        // Don't truncate content in post's own page
+        truncate = false
+    }
 
     useEffect(() => {
         socket.on('likePost', (postData) => {
@@ -25,7 +32,7 @@ export default function Post( {post} ) {
                 {/* <img src={data.author.profilePicUrl} alt={data.author.username + ' profile picture'} /> */}
                 <p>{post.author.displayName} @{post.author.username}</p>
             </div>
-            <div className='postContent'>
+            <div className={'postContent ' + (truncate && 'truncate')}>
                 {post.content}
             </div>
             <div className='postDate'>

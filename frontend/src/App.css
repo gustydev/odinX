@@ -70,9 +70,23 @@
 }
 
 .post {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     /* grid-template-rows: 0.5fr repeat(3, 1fr); */
     line-break: anywhere;
+}
+
+.postContent {
+    white-space: pre-wrap;
+}
+
+.truncate {
+    display: -webkit-box;
+    line-clamp: 8;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .authorInfo {

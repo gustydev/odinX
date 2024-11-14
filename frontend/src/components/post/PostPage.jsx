@@ -15,7 +15,7 @@ export default function PostPage() {
     const { register, handleSubmit, formState: { errors} } = useForm();
     const auth = useAuth();
     const [socket] = useOutletContext();
-
+    
     useEffect(() => {
         socket.on('postReply', (replyData) => {
             if (Number(postId) === replyData.parentPostId) {
@@ -60,7 +60,7 @@ export default function PostPage() {
                         minLength: 1,
                         maxLength: {value: 500, message: 'Post cannot surpass 500 characters'}
                     })} 
-                    type="text" id="content" name="content" placeholder="Speak what's on your mind..." minLength={1} maxLength={500} rows={1}
+                    type="text" id="content" name="content" placeholder="What do you think of this post?" minLength={1} maxLength={500} rows={1}
                     className={`form-control ${errors.content ? "is-invalid" : ""}`}    
                 />
                 <input type="submit" value="Reply" className="btn btn-warning rounded-0 align-self-end" />

@@ -13,7 +13,7 @@ export default function NewPostForm( {auth, setPostFormActive} ) {
             <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setPostFormActive(false)}>X</button>
             <div className='form-group'>
                 <label htmlFor="content" className='mb-3'>
-                    <h2>Write a post:</h2>
+                    <h2>🖉 New Post</h2>
                 </label>
 
                 <textarea 
