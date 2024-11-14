@@ -1,6 +1,15 @@
 const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
 
+const postInclude = {
+    _count: {
+        select: { replies: true, likes: true }
+    },
+    author: {
+        select: { displayName: true, username: true, profilePicUrl: true }
+    }
+}
+
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
         const user = await prisma.user.findUnique({
@@ -36,6 +45,29 @@ exports.getUsersList = asyncHandler(async (req, res, next) => {
     });
 
     return res.status(200).json(users);
+})
+
+exports.getUserPosts = asyncHandler(async (req, res, next) => {
+    let { page, limit, filter, sort = 'desc', replies = false } = req.query;
+
+    if (replies === 'false') replies = false;
+
+    const posts = await prisma.post.findMany({
+        skip: (page - 1) * limit || undefined,
+        take: Number(limit) || undefined,
+        orderBy: {
+            postDate: sort
+        },
+        where: {
+            authorId: req.params.userId,
+            content: { contains: filter },
+            parentPostId: !replies ? null : {not: null}
+            // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
+        },
+        include: postInclude
+    })
+
+    return res.status(200).json(posts);
 })
 
 exports.followUser = asyncHandler(async (req, res, next) => {

@@ -2,13 +2,19 @@ import { useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData/useData";
 import Loading from "../loading/Loading";
 import FetchError from "../errors/FetchError";
+import PostList from "../post/PostList";
+import { useState } from "react";
 
 export default function Profile() {
     const { userId } = useParams();
-    const { data: user, loading, error } = useData(`user/${userId}`);
+    const [replies, setReplies] = useState(false);
+    const { data: user, loading: userLoading, error: userError } = useData(`user/${userId}`);
+    const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?replies=${replies}`);
+    console.log(posts)
 
-    if (loading) return <Loading/>
-    if (error) return <FetchError error={error} />
+    if (userLoading || postsLoading) return <Loading/>
+    if (userError) return <FetchError error={userError} />
+    if (postsError) return <FetchError error={postsError} />
 
     return (
         <div className="user-profile">
@@ -31,6 +37,7 @@ export default function Profile() {
                     Replies
                 </button>
             </div>
+            <PostList posts={posts} />
         </div>
     )
 }

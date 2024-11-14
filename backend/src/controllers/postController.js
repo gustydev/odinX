@@ -13,7 +13,9 @@ const postInclude = {
 }
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
-    const { page, limit, filter, sort = 'desc', replies = false } = req.query;
+    let { page, limit, filter, sort = 'desc', replies = false } = req.query;
+
+    if (replies === 'false') replies = false;
     
     const posts = await prisma.post.findMany({
         skip: (page - 1) * limit || undefined,
@@ -23,8 +25,8 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
         },
         where: {
             content: { contains: filter },
-            parentPostId: replies === false ? null : undefined
-            // don't include reply posts unless specified (undefined means the "where" is not considered, so replies are returned)
+            parentPostId: !replies ? null : {not: null}
+            // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
         },
         include: postInclude
     })

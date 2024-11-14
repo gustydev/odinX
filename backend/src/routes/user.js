@@ -7,7 +7,7 @@ user.get('/list', validateToken, controller.getUsersList) // List of users (add 
 
 user.get('/:userId', convertParams, validateToken, controller.getUserById) // user's details
 user.get('/:userId/follows', convertParams) // shows both following and followers
-user.get('/:userId/posts', convertParams)
+user.get('/:userId/posts', convertParams, validateToken, controller.getUserPosts)
 user.get('/:userId/replies', convertParams);
 user.get('/:userId/likes', convertParams) // posts liked by user
 

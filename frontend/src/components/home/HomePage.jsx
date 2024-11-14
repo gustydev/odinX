@@ -3,6 +3,7 @@ import { useData } from "../../hooks/useData/useData";
 import Post from "../post/Post";
 import Loading from '../loading/Loading';
 import FetchError from '../errors/FetchError';
+import PostList from "../post/PostList";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 '
 
@@ -26,11 +27,7 @@ export default function HomePage() {
                     Your following
                 </button>
             </div>
-            <div className='posts d-flex flex-column gap-4 mt-4'>
-                {posts?.map((post) => {
-                    return <Post key={post.id} post={post} />
-                })}
-            </div>
+            <PostList posts={posts} />
         </div>
     )
 }
