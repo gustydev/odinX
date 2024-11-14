@@ -64,7 +64,7 @@ export default function Profile() {
             </div>
             {postsLoading? <Loading/> : postsError ? <FetchError error={postsError} /> : <PostList posts={posts} />}
             <div className={"modal " + (editFormActive ? 'd-block' : 'd-none')}>
-            {editFormActive && <EditProfileForm auth={auth} setEditFormActive={setEditFormActive} />}
+            {editFormActive && <EditProfileForm user={user} auth={auth} setEditFormActive={setEditFormActive} />}
             </div>
         </div>
     )

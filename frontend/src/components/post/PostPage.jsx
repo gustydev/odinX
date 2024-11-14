@@ -14,7 +14,7 @@ export default function PostPage() {
     const { data: post, setData: setPost, loading: loadingPost, error: postError } = useData(`post/${postId}`);
     const { data: replies, setData: setReplies, loading: loadingReplies, error: repliesError } = useData(`post/${postId}/replies`)
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors} } = useForm();
+    const { register, handleSubmit, formState: { errors}, reset } = useForm();
     const auth = useAuth();
     const [socket] = useOutletContext();
     
@@ -32,6 +32,7 @@ export default function PostPage() {
     
     async function handlePostReply(data) {
         await postReply(postId, data, auth.token, socket)
+        reset();
     }
 
     if (loadingPost || loadingReplies) return <Loading />

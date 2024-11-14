@@ -1,8 +1,13 @@
 import { useForm } from "react-hook-form";
 import { editProfile } from "../../utils/apiRequests";
 
-export default function EditProfileForm( {auth, setEditFormActive} ) {
-    const { register, handleSubmit, formState: { errors} } = useForm();
+export default function EditProfileForm( {auth, setEditFormActive, user} ) {
+    const { register, handleSubmit, formState: { errors} } = useForm({
+        defaultValues: {
+            displayName: user.displayName,
+            bio: user.bio
+        }
+    });
 
     async function submitEdit(data) {
         await editProfile(auth.user.id, data, auth.token)
