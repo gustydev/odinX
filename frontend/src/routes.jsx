@@ -6,6 +6,7 @@ import Register from './components/auth/Register';
 import HomePage from './components/home/HomePage';
 import PostPage from './components/post/PostPage';
 import Profile from './components/profile/Profile';
+import Search from './components/search/Search';
 
 const routes = [
     {
@@ -19,6 +20,7 @@ const routes = [
           { index: true, element: <HomePage/> },
           { path: '/post/:postId', element: <PostPage/> },
           { path: '/user/:userId', element: <Profile/> },
+          { path: '/search', element: <Search />}
         ]}
       ]
     }

@@ -18,7 +18,7 @@ export default function HomePage() {
             <div className='page-bar'>
                 <h2>Home</h2>
             </div>
-            <div className='btn-group d-flex'>
+            <div className='btn-group d-flex mb-4'>
                 <button className={buttonStyle + (tab === 'follows' ? 'active' : '')} onClick={() => setTab('follows')}>
                     Your following
                 </button>

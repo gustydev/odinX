@@ -2,15 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { checkIfValid } = require("gusty-middlewares");
 const { validateNewPost } = require("../utils/validationChains");
 const prisma = require('../prisma/client');
-
-const postInclude = {
-    _count: {
-        select: { replies: true, likes: true }
-    },
-    author: {
-        select: { displayName: true, username: true, profilePicUrl: true }
-    }
-}
+const { postInclude } = require('../utils/queryFilters');
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
     let { page, limit, filter, sort = 'desc', replies = false, follows = false } = req.query;
@@ -19,7 +11,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
     if (follows === 'false') follows = false;
 
     let user;
-    
+
     if (follows) {
         user = await prisma.user.findUnique({where: {id: req.user.id}, include: {following: true}})
     }

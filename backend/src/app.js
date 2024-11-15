@@ -15,7 +15,7 @@ const server = createServer(app);
 const authRoute = require('./routes/auth');
 const postRoute = require("./routes/post")
 const userRoute = require('./routes/user');
-const { convertParamsToNumber } = require('./middlewares/convertParams');
+const searchRoute = require('./routes/search');
 
 const corsOptions = {
   // In production, use the front-end URL; in development, accept any
@@ -34,6 +34,7 @@ app.use(express.static('public'))
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute)
 app.use('/api/user', userRoute);
+app.use('/api/search', searchRoute)
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

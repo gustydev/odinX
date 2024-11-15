@@ -54,7 +54,7 @@ export default function Profile() {
                     </button>
                 )}
             </div>
-            <div className='btn-group d-flex mt-3'>
+            <div className='btn-group d-flex mt-3 mb-4'>
                 <button className={buttonStyle + (!replies ? 'active' : '')} onClick={() => setReplies(false)}>
                     Posts
                 </button>

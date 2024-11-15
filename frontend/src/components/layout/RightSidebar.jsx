@@ -2,6 +2,7 @@ import { useData } from "../../hooks/useData/useData";
 import Loading from "../loading/Loading";
 import FetchError from "../errors/FetchError";
 import { Link } from "react-router-dom";
+import UserList from "../user/UserList";
 
 export default function RightSidebar() {
     const { data: users, loading, error } = useData('user/list');
@@ -11,20 +12,14 @@ export default function RightSidebar() {
 
     return (
         <div className='right-sidebar'>
-            <form action="">
-                <input type="text" />
-                <input type="submit" value="Search" />
+            <form action="/search" className='d-flex'>
+                <input type="search" className='form-control rounded-0' name='q' id='q' />
+                <input type="submit" value="Search" className='btn btn-primary rounded-0' />
             </form>
             <div>
                 <h2>Users</h2>
                 <ul>
-                    {users?.map((user) => {
-                        return <li key={user.id}>
-                            <Link to={`/user/${user.id}`}>
-                            {user.displayName} @{user.username}
-                            </Link>
-                        </li>
-                    })}
+                    <UserList users={users} />
                 </ul>
             </div>
         </div>

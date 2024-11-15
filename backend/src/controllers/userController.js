@@ -1,29 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
 const { validateProfileEdit } = require("../utils/validationChains");
-
-const postInclude = {
-    _count: {
-        select: { replies: true, likes: true }
-    },
-    author: {
-        select: { displayName: true, username: true, profilePicUrl: true }
-    }
-}
-
-const userQuery = {
-    omit: {password: true},
-    include: {
-        _count: {
-            select: {
-                followers: true,
-                following: true
-            }
-        },
-        followers: { select: { id: true } },
-        following: { select: { id: true } }
-    }
-}
+const { postInclude, userQuery } = require('../utils/queryFilters');
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
