@@ -19,6 +19,7 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
     if (follows === 'false') follows = false;
 
     let user;
+    
     if (follows) {
         user = await prisma.user.findUnique({where: {id: req.user.id}, include: {following: true}})
     }
