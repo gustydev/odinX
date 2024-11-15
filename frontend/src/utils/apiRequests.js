@@ -49,9 +49,6 @@ export async function newPost(data, token) {
         window.location = `/post/${res.post.id}`
     } catch (err) {
         console.error(err);
-        err.details?.forEach((d) => {
-            toast.error(d.msg)
-        })
     }
 }
 

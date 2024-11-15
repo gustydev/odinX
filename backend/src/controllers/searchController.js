@@ -16,11 +16,12 @@ exports.search = [
     checkIfValid,
 
     expressAsyncHandler(async (req, res, next) => {
-        const containsQuery = { contains: req.query.q };
+        const containsQuery = { contains: req.query.q, mode: 'insensitive' };
 
         const posts = await prisma.post.findMany({
             where: { content: containsQuery }, 
-            include: postInclude
+            include: postInclude,
+            orderBy: { postDate: 'desc' }
         })
         
         const users = await prisma.user.findMany({
