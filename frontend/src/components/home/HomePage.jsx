@@ -8,7 +8,7 @@ const buttonStyle = 'btn btn-outline-dark rounded-0 '
 
 export default function HomePage() {
     const [tab, setTab] = useState('all');
-    const { data: posts, loading, error } = useData('post/list');
+    const { data: posts, loading, error } = useData(`post/list?follows=${tab === 'follows'}`);
 
     if (loading) return <Loading />
     if (error) return <FetchError error={error}/>

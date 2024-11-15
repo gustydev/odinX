@@ -13,10 +13,16 @@ const postInclude = {
 }
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
-    let { page, limit, filter, sort = 'desc', replies = false } = req.query;
+    let { page, limit, filter, sort = 'desc', replies = false, follows = false } = req.query;
 
     if (replies === 'false') replies = false;
-    
+    if (follows === 'false') follows = false;
+
+    let user;
+    if (follows) {
+        user = await prisma.user.findUnique({where: {id: req.user.id}, include: {following: true}})
+    }
+
     const posts = await prisma.post.findMany({
         skip: (page - 1) * limit || undefined,
         take: Number(limit) || undefined,
@@ -25,8 +31,8 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
         },
         where: {
             content: { contains: filter },
-            parentPostId: !replies ? null : {not: null}
-            // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
+            parentPostId: !replies ? null : {not: null}, // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
+            author: follows ? { id: { in: user.following.map(f => f.id) } } : undefined
         },
         include: postInclude
     })
