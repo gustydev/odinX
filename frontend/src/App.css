@@ -58,6 +58,7 @@
     border-bottom: 3px solid darkgoldenrod;
     margin-bottom: 16px;
     padding: 8px;
+    line-break: anywhere;
 }
 
 .postDate > a {
@@ -130,4 +131,10 @@
 
 strong {
     font-weight: bold;
+}
+
+.search-form {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 4px;
 }

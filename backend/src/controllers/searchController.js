@@ -8,6 +8,7 @@ exports.search = [
     query('q')
     .isString()
     .withMessage('Search query must be a string')
+    .trim()
     .isLength({min: 1})
     .withMessage('Search query must be at least one character long')
     .isLength({max: 50})

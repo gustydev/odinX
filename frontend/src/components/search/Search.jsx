@@ -7,19 +7,19 @@ import UserList from '../user/UserList';
 
 export default function Search() {
     const [searchParams] = useSearchParams();
-    const query = searchParams.get('q');
+    const query = searchParams.get('q').trim();
     const { data, loading, error } = useData(`search?q=${query}`);
 
     return (
         <div className='search'>
             <div className='page-bar'>
-                <h2>Search</h2>
+                <h2>Search: "{query}"</h2>
             </div>
             {loading ? <Loading/> : error ? <FetchError error={error}/> : (
                 <>
-                    <h3>Users</h3>
+                    <h3 className='mb-1'>Users</h3>
                     <UserList users={data.users}/>
-                    <h3 className='mt-4'>Posts</h3>
+                    <h3 className='mb-1 mt-4'>Posts</h3>
                     <PostList posts={data.posts}/>
                 </>
             )}
