@@ -25,7 +25,7 @@ export default function EditProfileForm( {auth, setEditFormActive, user} ) {
                 <input 
                 {...register('displayName', {
                     required: false,
-                    minLength: { value: 2, message: 'Minimum: 1 character' },
+                    minLength: { value: 1, message: 'Minimum: 1 character' },
                     maxLength: { value: 30, message: 'Maximum: 30 characters'}
                 })}
                 type="text" name='displayName' id='displayName' placeholder='John Doe' maxLength={30}

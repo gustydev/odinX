@@ -9,7 +9,7 @@ import EditProfileForm from "./EditProfileForm";
 import FollowButton from "../user/FollowButton";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
-const actionButtonStyle = buttonStyle + 'btn-sm position-absolute top-0 end-0'
+const actionButtonStyle = buttonStyle + 'btn-sm'
 
 export default function Profile() {
     const { userId } = useParams();
@@ -36,17 +36,21 @@ export default function Profile() {
             <div className="page-bar">
                 <h2>Profile</h2>
             </div>
-            <div className='position-relative'>
+            <div>
                 {/* <img src={user.profilePicUrl} alt={user.username + "'s profile picture"} /> */}
-                <h3><strong>{user.displayName}</strong> @{user.username}</h3>
-                <p>{user.bio}</p>
+                <div className="d-flex justify-content-between align-items-center gap-4 mb-2">
+                    <h3 className='line-break-anywhere'><strong>{user.displayName}</strong> @{user.username}</h3>
+                    {auth.user.id === user.id ? (
+                        <button className={actionButtonStyle} onClick={() => setEditFormActive(true)}>🖉 Edit</button>)
+                    : (
+                        <FollowButton style={actionButtonStyle} user={user} auth={auth} socket={socket} />
+                    )}
+                </div>
+                <p className='line-break-anywhere'>{user.bio}</p>
                 <p>Member since {new Date(user.joinDate).toLocaleDateString()}</p>
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>
-                {auth.user.id === user.id && <button className={actionButtonStyle} onClick={() => setEditFormActive(true)}>🖉 Edit</button>}
-                {auth.user.id !== user.id && (
-                    <FollowButton style={actionButtonStyle} user={user} auth={auth} socket={socket} />
-                )}
+                
             </div>
             <div className='btn-group d-flex mt-3 mb-4'>
                 <button className={buttonStyle + (!replies ? 'active' : '')} onClick={() => setReplies(false)}>

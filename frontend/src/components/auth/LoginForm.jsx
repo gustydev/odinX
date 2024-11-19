@@ -14,7 +14,7 @@ export default function LoginForm( {onSubmit} ) {
                         minLength: {value: 4, message: 'Minimum length: 4 characters'},
                         pattern: { value: /^[a-zA-Z0-9_]+$/, message: 'Only alphanumeric characters (letters, numbers, underscores) allowed' }
                     })}
-                    type="text" id="username" name="username" placeholder="Username" 
+                    type="text" id="username" name="username" placeholder="Username" maxLength={30}
                     className={`form-control ${errors.username ? "is-invalid" : ""}`}
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
@@ -27,7 +27,7 @@ export default function LoginForm( {onSubmit} ) {
                         minLength: {value: 8, message: 'Minimum length: 8 characters'},
                         maxLength: {value: 100, message: 'Maximum length: 100 characters'} 
                     })}
-                    type="password" id="password" name="password" 
+                    type="password" id="password" name="password" maxLength={100}
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}
                 />
                 {errors.password && <span className="error">{errors.password.message}</span>}

@@ -140,9 +140,14 @@ strong {
 }
 
 .user-display {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 4px;
     align-items: center;
     background: none;
     border: 1px solid black;
+}
+
+.line-break-anywhere {
+    line-break: anywhere;
 }

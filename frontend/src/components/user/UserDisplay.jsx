@@ -19,7 +19,7 @@ export default function UserDisplay( {user, socket} ) {
 
     return (
         <li className='user-display list-group-item'>
-            <div>
+            <div className="line-break-anywhere">
                 <strong>{userInfo.displayName}</strong>
                 &nbsp;
                 <Link to={`/user/${userInfo.id}`}>@{userInfo.username}</Link>

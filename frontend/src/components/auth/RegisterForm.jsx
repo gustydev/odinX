@@ -63,7 +63,7 @@ export default function RegisterForm() {
                         minLength: {value: 8, message: 'Minimum length: 8 characters'},
                         maxLength: {value: 100, message: 'Maximum length: 100 characters'} 
                     })}
-                    type="password" id="password" name="password" 
+                    type="password" id="password" name="password" maxLength={100}
                     className={`form-control ${errors.password ? "is-invalid" : ""}`}
                 />
                 {errors.password && <span className="error">{errors.password.message}</span>}
