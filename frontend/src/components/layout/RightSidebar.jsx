@@ -10,7 +10,7 @@ export default function RightSidebar() {
     const { register, handleSubmit, formState: {errors} } = useForm();
     const navigate = useNavigate();
 
-    function onSubmit(data) {
+    function onSearch(data) {
         if (data.q.trim() && !errors.q) {
             navigate(`/search?q=${data.q}`)
         }
@@ -21,7 +21,7 @@ export default function RightSidebar() {
 
     return (
         <div className='right-sidebar'>
-            <form className='search-form' onSubmit={handleSubmit(onSubmit)}>
+            <form className='search-form' onSubmit={handleSubmit(onSearch)}>
                 <div className='d-flex gap-2'>
                     <input
                     {...register('q', {
@@ -38,9 +38,7 @@ export default function RightSidebar() {
             </form>
             <div>
                 <h2>Users</h2>
-                <ul>
-                    <UserList users={users} />
-                </ul>
+                <UserList users={users} />
             </div>
         </div>
     )

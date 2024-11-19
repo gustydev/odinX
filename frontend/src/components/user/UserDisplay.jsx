@@ -1,12 +1,14 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
+
 export default function UserDisplay( {user} ) {
+    const [userInfo, setUserInfo] = useState(user)
+
     return (
-        <div>
-            <p>
-                <strong>{user.displayName}</strong>
-                &nbsp; 
-                <Link to={`/user/${user.id}`}>@{user.username}</Link>
-            </p>
-        </div>
+        <li>
+            <strong>{userInfo.displayName}</strong>
+            &nbsp; 
+            <Link to={`/user/${userInfo.id}`}>@{userInfo.username}</Link>
+        </li>
     )
 }
