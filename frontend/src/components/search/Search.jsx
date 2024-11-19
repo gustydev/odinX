@@ -10,7 +10,7 @@ export default function Search() {
     const query = searchParams.get('q').trim();
     const { data, loading, error } = useData(`search?q=${query}`);
     const [socket] = useOutletContext();
-
+    
     return (
         <div className='search'>
             <div className='page-bar'>

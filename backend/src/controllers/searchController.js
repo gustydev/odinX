@@ -24,7 +24,7 @@ exports.search = [
             include: postInclude,
             orderBy: { postDate: 'desc' }
         })
-        
+
         const users = await prisma.user.findMany({...userQuery,
             where: { OR: [
                 { username: containsQuery },

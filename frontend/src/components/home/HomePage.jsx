@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "../../hooks/useData/useData";
 import Loading from '../loading/Loading';
 import FetchError from '../errors/FetchError';
@@ -8,9 +8,50 @@ const buttonStyle = 'btn btn-outline-dark rounded-0 '
 
 export default function HomePage() {
     const [tab, setTab] = useState('follows');
-    const { data: posts, loading, error } = useData(`post/list?follows=${tab === 'follows'}`);
+    const [page, setPage] = useState(1);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [end, setEnd] = useState(false);
 
-    if (loading) return <Loading />
+    const { data: newPosts, loading: loadingNew, error } = useData(`post/list?follows=${tab === 'follows'}&limit=10&page=${page}`);
+    
+    useEffect(() => {
+        setPosts([])
+        setLoading(true)
+        setPage(1);
+        setEnd(false)
+    }, [tab])
+
+    useEffect(() => {
+        if (newPosts) {
+            if (page === 1) {
+                setPosts(newPosts)
+            } else {
+                setPosts((prev) => [...new Set([...prev, ...newPosts])]) // Using set to prevent duplication
+            }
+
+            setLoading(false)
+
+            if (newPosts.length === 0) {
+                setEnd(true)
+            } else {
+                setEnd(false)
+            }
+        }
+    }, [newPosts, page])
+
+    useEffect(() => {
+        function handleScroll() {
+            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+                if (!end) setPage(prevPage => prevPage + 1);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [end])
+
     if (error) return <FetchError error={error}/>
 
     return (
@@ -26,8 +67,14 @@ export default function HomePage() {
                     All posts
                 </button>
             </div>
-            <PostList posts={posts} />
-            {posts.length < 1 && tab === 'follows' && 'Find some people to follow!'}
+            {loading ? <Loading /> : (
+                <>
+                <PostList posts={posts} />
+                {posts.length < 1 && tab === 'follows' && 'Find some people to follow!'}
+                {loadingNew && page > 1 && <Loading/>}
+                {end && <div className='d-flex justify-content-center mt-4'>You have reached the end! Congratulations!</div>}
+                </>
+            )}
         </div>
     )
 }
