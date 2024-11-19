@@ -18,7 +18,7 @@ exports.search = [
 
     expressAsyncHandler(async (req, res, next) => {
         const containsQuery = { contains: req.query.q, mode: 'insensitive' };
-
+        
         const posts = await prisma.post.findMany({
             where: { content: containsQuery }, 
             include: postInclude,

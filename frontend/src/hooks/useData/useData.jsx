@@ -24,6 +24,7 @@ export function useData(path) {
                 if (import.meta.env.VITE_NODE_ENV === 'development') {
                     console.log(error)
                 }
+                
                 setError(error)
             } finally {
                 setLoading(false);

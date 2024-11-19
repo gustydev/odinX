@@ -14,7 +14,7 @@ exports.getUserById = [
 exports.getUsersList = asyncHandler(async (req, res, next) => {
     const { page, limit, filter } = req.query;
 
-    const users = await prisma.user.findMany({
+    const users = await prisma.user.findMany({...userQuery,
         skip: (page - 1) * limit || undefined,
         take: Number(limit) || undefined,
         // where: {
@@ -23,7 +23,6 @@ exports.getUsersList = asyncHandler(async (req, res, next) => {
         //         { username: { contains: filter } }
         //     ]
         // },
-        omit: {password: true}
     });
 
     return res.status(200).json(users);

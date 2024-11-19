@@ -5,8 +5,8 @@ import FetchError from "../errors/FetchError";
 import PostList from "../post/PostList";
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
-import { followUser } from "../../utils/apiRequests";
 import EditProfileForm from "./EditProfileForm";
+import FollowButton from "../user/FollowButton";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 '
 const actionButtonStyle = buttonStyle + 'btn-sm position-absolute top-0 end-0'
@@ -49,9 +49,7 @@ export default function Profile() {
                 <p>{user._count.following} following</p>
                 {auth.user.id === user.id && <button className={actionButtonStyle} onClick={() => setEditFormActive(true)}>🖉 Edit</button>}
                 {auth.user.id !== user.id && (
-                    <button className={actionButtonStyle} onClick={() => followUser(userId, auth.token, socket)}>
-                        {user.followers.find((follower) => follower.id === auth.user.id) ? '✖ Unfollow' : '✚ Follow'}
-                    </button>
+                    <FollowButton style={actionButtonStyle} user={user} auth={auth} socket={socket} />
                 )}
             </div>
             <div className='btn-group d-flex mt-3 mb-4'>

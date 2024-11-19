@@ -18,7 +18,7 @@ export default function Search() {
             {loading ? <Loading/> : error ? <FetchError error={error}/> : (
                 <>
                     <h3 className='mb-1'>Users</h3>
-                    <UserList users={data.users}/>
+                    <UserList users={data.users} />
                     <h3 className='mb-1 mt-4'>Posts</h3>
                     <PostList posts={data.posts}/>
                 </>
