@@ -8,7 +8,7 @@ import useAuth from "../../hooks/useAuth/useAuth";
 import EditProfileForm from "./EditProfileForm";
 import FollowButton from "../user/FollowButton";
 
-const buttonStyle = 'btn btn-outline-dark rounded-0 '
+const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
 const actionButtonStyle = buttonStyle + 'btn-sm position-absolute top-0 end-0'
 
 export default function Profile() {

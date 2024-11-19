@@ -138,3 +138,11 @@ strong {
     gap: 6px;
     margin-bottom: 4px;
 }
+
+.user-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: 1px solid black;
+}

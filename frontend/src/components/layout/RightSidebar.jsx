@@ -36,8 +36,8 @@ export default function RightSidebar( {socket} ) {
                 </div>
                 {errors.q && <span className='error'>{errors.q?.message}</span>}
             </form>
-            <div>
-                <h2>Users</h2>
+            <div className='mt-4'>
+                <h2 className='mb-2'>Users</h2>
                 <UserList users={users} socket={socket} />
             </div>
         </div>

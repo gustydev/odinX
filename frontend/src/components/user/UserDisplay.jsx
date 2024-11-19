@@ -3,8 +3,7 @@ import { Link } from "react-router-dom"
 import FollowButton from "./FollowButton"
 import useAuth from "../../hooks/useAuth/useAuth"
 
-const buttonStyle = 'btn btn-outline-dark rounded-0 '
-const actionButtonStyle = buttonStyle + 'btn-sm'
+const buttonStyle = 'btn btn-outline-dark rounded-0 btn-sm'
 
 export default function UserDisplay( {user, socket} ) {
     const [userInfo, setUserInfo] = useState(user)
@@ -17,15 +16,15 @@ export default function UserDisplay( {user, socket} ) {
             }        
         })
     }, [socket, userInfo, setUserInfo])
-    
-    console.log(userInfo)
 
     return (
-        <li>
-            <strong>{userInfo.displayName}</strong>
-            &nbsp; 
-            <Link to={`/user/${userInfo.id}`}>@{userInfo.username}</Link>
-            {userInfo.id !== auth.user.id && <FollowButton user={userInfo} auth={auth} socket={socket} style={actionButtonStyle} />}
+        <li className='user-display list-group-item'>
+            <div>
+                <strong>{userInfo.displayName}</strong>
+                &nbsp;
+                <Link to={`/user/${userInfo.id}`}>@{userInfo.username}</Link>
+            </div>
+            {userInfo.id !== auth.user.id && <FollowButton user={userInfo} auth={auth} socket={socket} style={buttonStyle} />}
         </li>
     )
 }
