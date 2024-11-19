@@ -2,7 +2,7 @@ const expressAsyncHandler = require('express-async-handler');
 const { query } = require('express-validator');
 const { checkIfValid } = require('gusty-middlewares');
 const prisma = require('../prisma/client');
-const { postInclude } = require('../utils/queryFilters');
+const { postInclude, userQuery } = require('../utils/queryFilters');
 
 exports.search = [
     query('q')
@@ -25,12 +25,11 @@ exports.search = [
             orderBy: { postDate: 'desc' }
         })
         
-        const users = await prisma.user.findMany({
+        const users = await prisma.user.findMany({...userQuery,
             where: { OR: [
                 { username: containsQuery },
                 { displayName: containsQuery }
-            ]},
-            omit: { password: true }
+            ]}
         });
 
         return res.status(200).json({posts, users});

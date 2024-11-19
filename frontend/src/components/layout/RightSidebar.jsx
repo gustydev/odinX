@@ -5,7 +5,7 @@ import UserList from "../user/UserList";
 import { useForm } from 'react-hook-form'
 import { useNavigate } from "react-router-dom";
 
-export default function RightSidebar() {
+export default function RightSidebar( {socket} ) {
     const { data: users, loading, error } = useData('user/list');
     const { register, handleSubmit, formState: {errors} } = useForm();
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function RightSidebar() {
             </form>
             <div>
                 <h2>Users</h2>
-                <UserList users={users} />
+                <UserList users={users} socket={socket} />
             </div>
         </div>
     )

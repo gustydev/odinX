@@ -19,9 +19,9 @@ export default function ProtectedRoute() {
         <main className='layout'>
             <LeftSidebar />
             <div className="content">
-                <Outlet context={[socket]}/>
+                <Outlet context={[socket]} />
             </div>
-            <RightSidebar />
+            <RightSidebar socket={socket} />
         </main>
     );
 };

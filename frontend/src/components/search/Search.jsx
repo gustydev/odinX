@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom"
+import { useOutletContext, useSearchParams } from "react-router-dom"
 import { useData } from "../../hooks/useData/useData";
 import Loading from "../loading/Loading";
 import FetchError from "../errors/FetchError";
@@ -9,6 +9,7 @@ export default function Search() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q').trim();
     const { data, loading, error } = useData(`search?q=${query}`);
+    const [socket] = useOutletContext();
 
     return (
         <div className='search'>
@@ -18,7 +19,7 @@ export default function Search() {
             {loading ? <Loading/> : error ? <FetchError error={error}/> : (
                 <>
                     <h3 className='mb-1'>Users</h3>
-                    <UserList users={data.users} />
+                    <UserList users={data.users} socket={socket} />
                     <h3 className='mb-1 mt-4'>Posts</h3>
                     <PostList posts={data.posts}/>
                 </>
