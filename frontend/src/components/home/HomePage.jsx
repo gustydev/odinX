@@ -4,7 +4,7 @@ import Loading from '../loading/Loading';
 import FetchError from '../errors/FetchError';
 import PostList from "../post/PostList";
 
-const buttonStyle = 'btn btn-outline-dark rounded-0 '
+const buttonStyle = 'btn btn-outline-dark font-weight-bold rounded-0 '
 
 export default function HomePage() {
     const [tab, setTab] = useState('follows');

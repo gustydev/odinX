@@ -141,7 +141,7 @@ strong {
 
 .user-display {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 9fr 1fr;
     gap: 4px;
     align-items: center;
     background: none;
@@ -150,4 +150,13 @@ strong {
 
 .line-break-anywhere {
     line-break: anywhere;
+}
+
+.profile-link {
+    color: black;
+    text-decoration: none;
+}
+
+.profile-link:hover {
+    text-decoration: underline;
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import FollowButton from "./FollowButton"
 import useAuth from "../../hooks/useAuth/useAuth"
 
-const buttonStyle = 'btn btn-outline-dark rounded-0 btn-sm'
+const buttonStyle = 'btn rounded-0 btn-sm '
 
 export default function UserDisplay( {user, socket} ) {
     const [userInfo, setUserInfo] = useState(user)
@@ -19,10 +19,13 @@ export default function UserDisplay( {user, socket} ) {
 
     return (
         <li className='user-display list-group-item'>
-            <div className="line-break-anywhere">
-                <strong>{userInfo.displayName}</strong>
-                &nbsp;
-                <Link to={`/user/${userInfo.id}`}>@{userInfo.username}</Link>
+            <div className="d-inline-block text-truncate">
+                <Link to={`/user/${userInfo.id}`} className='profile-link'>
+                    <strong>{userInfo.displayName}</strong>
+                </Link>
+                <p>
+                    @{userInfo.username}
+                </p>
             </div>
             {userInfo.id !== auth.user.id && <FollowButton user={userInfo} auth={auth} socket={socket} style={buttonStyle} />}
         </li>

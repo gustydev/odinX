@@ -1,9 +1,13 @@
 import { followUser } from "../../utils/apiRequests"
 
-export default function FollowButton( { style, user, auth, socket } ) {
+const style = 'btn rounded-0 '
+
+export default function FollowButton( { user, auth, socket } ) {
+    const isFollowing = user.followers?.find((follower) => follower.id === auth.user.id);
+
     return (
-        <button className={style} onClick={() => followUser(user.id, auth.token, socket)}>
-            {user.followers?.find((follower) => follower.id === auth.user.id) ? '✖ Unfollow' : '✚ Follow'}
+        <button className={style + 'btn-outline-' + (isFollowing ? 'danger' : 'primary')} onClick={() => followUser(user.id, auth.token, socket)}>
+            {isFollowing ? '✖' : '✚'}
         </button>
     )
 }

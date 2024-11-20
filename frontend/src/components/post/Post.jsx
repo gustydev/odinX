@@ -4,7 +4,7 @@ import { likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const buttonStyle = 'btn btn-outline-dark rounded-0 border-0'
+const buttonStyle = 'btn rounded-2 border-0 '
 
 export default function Post( {post} ) {
     const auth = useAuth();
@@ -29,10 +29,14 @@ export default function Post( {post} ) {
     return (
         <div className='post'>
             <div className='authorInfo'>
-                {/* <img src={data.author.profilePicUrl} alt={data.author.username + ' profile picture'} /> */}
-                <p>{post.author.displayName} @{post.author.username}</p>
+                <div>
+                    <Link to={`/user/${post.authorId}`} className='profile-link'>
+                        {post.author.displayName}
+                    </Link>
+                    &nbsp;@{post.author.username}
+                </div>
             </div>
-            <div className={'postContent ' + (truncate && 'truncate')}>
+            <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
                 {post.content}
             </div>
             <div className='postDate'>
@@ -41,10 +45,10 @@ export default function Post( {post} ) {
                 </Link>
             </div>
             <div className='postStats btn-group'>
-                <button className={buttonStyle} onClick={() => {likePost(post.id, auth.token, socket)}}>
+                <button className={buttonStyle + 'btn-outline-danger'} onClick={() => {likePost(post.id, auth.token, socket)}}>
                     ❤️ {likes} 
                 </button>
-                <Link to={`/post/${post.id}`} className={buttonStyle}>
+                <Link to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary'}>
                     🗫 {post._count.replies}
                 </Link>
             </div>

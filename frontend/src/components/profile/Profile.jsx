@@ -9,7 +9,6 @@ import EditProfileForm from "./EditProfileForm";
 import FollowButton from "../user/FollowButton";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
-const actionButtonStyle = buttonStyle + 'btn-sm'
 
 export default function Profile() {
     const { userId } = useParams();
@@ -39,14 +38,21 @@ export default function Profile() {
             <div>
                 {/* <img src={user.profilePicUrl} alt={user.username + "'s profile picture"} /> */}
                 <div className="d-flex justify-content-between align-items-center gap-4 mb-2">
-                    <h3 className='line-break-anywhere'><strong>{user.displayName}</strong> @{user.username}</h3>
+                    <div>
+                        <h3>
+                            {user.displayName}
+                        </h3>
+                        <p>
+                            @{user.username}
+                        </p>
+                    </div>
                     {auth.user.id === user.id ? (
-                        <button className={actionButtonStyle} onClick={() => setEditFormActive(true)}>🖉 Edit</button>)
+                        <button className={buttonStyle + 'btn-sm'} onClick={() => setEditFormActive(true)}>🖉 Edit</button>)
                     : (
-                        <FollowButton style={actionButtonStyle} user={user} auth={auth} socket={socket} />
+                        <FollowButton user={user} auth={auth} socket={socket} />
                     )}
                 </div>
-                <p className='line-break-anywhere'>{user.bio}</p>
+                <p className='line-break-anywhere mt-2 mb-2'>{user.bio}</p>
                 <p>Member since {new Date(user.joinDate).toLocaleDateString()}</p>
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>

@@ -8,7 +8,7 @@ exports.postInclude = {
 }
 
 exports.userQuery = {
-    omit: {password: true},
+    omit: { password: true },
     include: {
         _count: {
             select: {
