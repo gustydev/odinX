@@ -1,13 +1,4 @@
-exports.postInclude = {
-    _count: {
-        select: { replies: true, likes: true }
-    },
-    author: {
-        select: { displayName: true, username: true, profilePicUrl: true }
-    }
-}
-
-exports.userQuery = {
+const userQuery = {
     omit: { password: true },
     include: {
         _count: {
@@ -20,3 +11,12 @@ exports.userQuery = {
         following: { select: { id: true } }
     }
 }
+
+const postInclude = {
+    _count: {
+        select: { replies: true, likes: true }
+    },
+    author: userQuery
+}
+
+module.exports = { userQuery, postInclude }

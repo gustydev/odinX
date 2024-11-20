@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth/useAuth"
 
 const buttonStyle = 'btn rounded-0 btn-sm '
 
-export default function UserDisplay( {user, socket} ) {
+export default function UserInfo( {user, socket, isListItem} ) {
     const [userInfo, setUserInfo] = useState(user)
     const auth = useAuth();
 
@@ -17,8 +17,9 @@ export default function UserDisplay( {user, socket} ) {
         })
     }, [socket, userInfo, setUserInfo])
 
-    return (
-        <li className='user-display list-group-item'>
+    function Info() {
+        return (
+            <>
             <div className="d-inline-block text-truncate">
                 <Link to={`/user/${userInfo.id}`} className='profile-link'>
                     <strong>{userInfo.displayName}</strong>
@@ -28,6 +29,16 @@ export default function UserDisplay( {user, socket} ) {
                 </p>
             </div>
             {userInfo.id !== auth.user.id && <FollowButton user={userInfo} auth={auth} socket={socket} style={buttonStyle} />}
-        </li>
+            </>
+        )
+    }
+
+    return (
+        isListItem ? <li className='user-info list-group-item border-dark'>
+            <Info/>
+        </li> 
+        : <div className='user-info'>
+            <Info/>
+        </div>
     )
 }

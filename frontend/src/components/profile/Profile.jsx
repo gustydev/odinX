@@ -6,7 +6,7 @@ import PostList from "../post/PostList";
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import EditProfileForm from "./EditProfileForm";
-import FollowButton from "../user/FollowButton";
+import UserInfo from "../user/UserInfo";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
 
@@ -32,26 +32,14 @@ export default function Profile() {
 
     return (
         <div className="user-profile">
-            <div className="page-bar">
+            <div className="page-bar position-relative">
                 <h2>Profile</h2>
+                {auth.user.id === user.id && 
+                    <button className={buttonStyle + 'btn-sm position-absolute top-0 end-0'} onClick={() => setEditFormActive(true)}>🖉 Edit</button>
+                }
             </div>
             <div>
-                {/* <img src={user.profilePicUrl} alt={user.username + "'s profile picture"} /> */}
-                <div className="d-flex justify-content-between align-items-center gap-4 mb-2">
-                    <div>
-                        <h3>
-                            {user.displayName}
-                        </h3>
-                        <p>
-                            @{user.username}
-                        </p>
-                    </div>
-                    {auth.user.id === user.id ? (
-                        <button className={buttonStyle + 'btn-sm'} onClick={() => setEditFormActive(true)}>🖉 Edit</button>)
-                    : (
-                        <FollowButton user={user} auth={auth} socket={socket} />
-                    )}
-                </div>
+                <UserInfo user={user} socket={socket} />
                 <p className='line-break-anywhere mt-2 mb-2'>{user.bio}</p>
                 <p>Member since {new Date(user.joinDate).toLocaleDateString()}</p>
                 <p>{user._count.followers} followers</p>

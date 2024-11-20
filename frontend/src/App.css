@@ -139,13 +139,12 @@ strong {
     margin-bottom: 4px;
 }
 
-.user-display {
+.user-info {
     display: grid;
-    grid-template-columns: 9fr 1fr;
+    grid-template-columns: 19fr 1fr;
     gap: 4px;
     align-items: center;
     background: none;
-    border: 1px solid black;
 }
 
 .line-break-anywhere {

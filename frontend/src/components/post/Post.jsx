@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth/useAuth"
 import { likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserInfo from "../user/UserInfo";
 
 const buttonStyle = 'btn rounded-2 border-0 '
 
@@ -28,14 +29,7 @@ export default function Post( {post} ) {
 
     return (
         <div className='post'>
-            <div className='authorInfo'>
-                <div>
-                    <Link to={`/user/${post.authorId}`} className='profile-link'>
-                        {post.author.displayName}
-                    </Link>
-                    &nbsp;@{post.author.username}
-                </div>
-            </div>
+            <UserInfo user={post.author} socket={socket} />
             <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
                 {post.content}
             </div>
