@@ -14,29 +14,20 @@ export default function HomePage() {
     const [end, setEnd] = useState(false);
 
     const { data: newPosts, loading: loadingNew, error } = useData(`post/list?follows=${tab === 'follows'}&limit=10&page=${page}`);
-    
+
     useEffect(() => {
-        setPosts([])
         setLoading(true)
         setPage(1);
-        setEnd(false)
     }, [tab])
 
     useEffect(() => {
         if (newPosts) {
-            if (page === 1) {
-                setPosts(newPosts)
-            } else {
-                setPosts((prev) => [...new Set([...prev, ...newPosts])]) // Using set to prevent duplication
-            }
-
-            setLoading(false)
-
-            if (newPosts.length === 0) {
-                setEnd(true)
-            } else {
-                setEnd(false)
-            }
+            setTimeout(() => {
+                setPosts(prev => (page === 1 ? newPosts : [...new Set([...prev, ...newPosts])])) // Set is used to prevent duplication
+                setEnd(newPosts.length === 0)
+                setLoading(false)
+            }, 100)
+            // Adding a small delay to make tab switching a bit more smooth
         }
     }, [newPosts, page])
 
@@ -50,7 +41,7 @@ export default function HomePage() {
         window.addEventListener('scroll', handleScroll)
 
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [end])
+    }, [end, loadingNew])
 
     if (error) return <FetchError error={error}/>
 
