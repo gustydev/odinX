@@ -12,10 +12,11 @@ const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
 
 export default function Profile() {
     const { userId } = useParams();
-    const [replies, setReplies] = useState(false);
+    const [tab, setTab] = useState('posts');
     const [editFormActive, setEditFormActive] = useState(false);
     const { data: user, setData: setUser, loading: userLoading, error: userError } = useData(`user/${userId}`);
-    const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?replies=${replies}`);
+    const postQuery = tab === 'replies' ? 'replies=true' : tab === 'likes' ? 'likes=true' : '';
+    const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?${postQuery}`);
     const auth = useAuth();
     const [socket] = useOutletContext()
 
@@ -47,11 +48,14 @@ export default function Profile() {
                 
             </div>
             <div className='btn-group d-flex mt-3 mb-4'>
-                <button className={buttonStyle + (!replies ? 'active' : '')} onClick={() => setReplies(false)}>
+                <button className={buttonStyle + (tab === 'posts' ? 'active' : '')} onClick={() => setTab('posts')}>
                     Posts
                 </button>
-                <button className={buttonStyle + (replies ? 'active' : '')} onClick={() => setReplies(true)}>
+                <button className={buttonStyle + (tab === 'replies' ? 'active' : '')} onClick={() => setTab('replies')}>
                     Replies
+                </button>
+                <button className={buttonStyle + (tab === 'likes' ? 'active' : '')} onClick={() => setTab('likes')}>
+                    Likes
                 </button>
             </div>
             {postsLoading? <Loading/> : postsError ? <FetchError error={postsError} /> : <PostList posts={posts} />}

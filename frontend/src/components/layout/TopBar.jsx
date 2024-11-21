@@ -5,15 +5,12 @@ export default function TopBar() {
 
     return (
         <div className='topbar'>
-        <h1>Odinbook</h1>
-        {auth.token && (
-            <>
-            <p>Welcome back, @{auth.user.username}</p>
-            <button onClick={auth.logOut} className='btn btn-outline-secondary'>
-                Log out
-            </button>
-            </>
-        )}
+            <h1>OdinX</h1>
+            {auth.token && (
+                <button onClick={auth.logOut} className='btn btn-outline-secondary'>
+                    Log out
+                </button>
+            )}
         </div>
     )
 }

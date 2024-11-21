@@ -1,11 +1,20 @@
 .topbar {
     padding: 2vh 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 3fr 1fr 3fr;
     text-align: center;
     align-items: center;
     background-color: rgb(255, 208, 121);
     padding: 1vh 12vh;
+}
+
+.topbar > h1 {
+    grid-column: 2 / 3;
+}
+
+.topbar > button {
+    align-self: end;
+    justify-self: end;
 }
 
 .layout {

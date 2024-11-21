@@ -12,6 +12,7 @@ export default function LeftSidebar() {
 
     return (
         <div className="left-sidebar">
+            <strong className="text-center">Welcome back, @{auth.user.username}!</strong>
             <div className="btn-group d-flex">
                 <button onClick={() => navigate('/')} className={buttonStyle + 'btn-danger'}>
                     ⌂ Home

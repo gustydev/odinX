@@ -29,9 +29,11 @@ exports.getUsersList = asyncHandler(async (req, res, next) => {
 })
 
 exports.getUserPosts = asyncHandler(async (req, res, next) => {
-    let { page, limit, filter, sort = 'desc', replies = false } = req.query;
+    let { page, limit, filter, sort = 'desc', replies = false, likes = false } = req.query;
 
+    // convert string 'false' to boolean
     if (replies === 'false') replies = false;
+    if (likes === 'false') likes = false;
 
     const posts = await prisma.post.findMany({
         skip: (page - 1) * limit || undefined,
@@ -42,8 +44,11 @@ exports.getUserPosts = asyncHandler(async (req, res, next) => {
         where: {
             authorId: req.params.userId,
             content: { contains: filter },
-            parentPostId: !replies ? null : {not: null}
-            // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
+            parentPostId: replies ? { not: null } : likes ? undefined : null,
+            // replies=true returns only replies (combined with likes=true, only liked replies)
+            // replies=false and likes=true returns any posts liked
+            // likes=false and replies=false returns only original posts
+            likes: likes ? { some: { likedById: req.user.id } } : undefined
         },
         include: postInclude
     })
