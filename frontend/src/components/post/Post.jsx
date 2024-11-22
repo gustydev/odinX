@@ -12,7 +12,7 @@ const buttonStyle = 'btn rounded-2 border-0 '
 export default function Post( {post} ) {
     const auth = useAuth();
     const [socket] = useOutletContext();
-    const [likes, setLikes] = useState(post._count.likes);
+    const [likeCount, setLikeCount] = useState(post._count.likes);
     const [editFormActive, setEditFormActive] = useState(false)
     const location = useLocation();
     let truncate = true;
@@ -25,19 +25,26 @@ export default function Post( {post} ) {
     useEffect(() => {
         socket.on('likePost', (postData) => {
             if (post.id === postData.id) {
-                setLikes(postData._count.likes)
+                setLikeCount(postData._count.likes)
             }
         })
     }, [socket, post])
 
     const postDate = dateFormat(post.postDate)
     const editDate = dateFormat(post.editDate)
-
+    
     return (
-        <div className='post'>
+        <div className='post position-relative'>
             <UserInfo user={post.author} socket={socket} />
-            {post.author.id === auth.user.id && 
-                <button onClick={() => setEditFormActive(true)} className='btn btn-sm btn-outline-dark'>EDIT</button>
+            {post.author.id === auth.user.id &&
+                <div className='btn-group position-absolute end-0 top-0'>
+                    <button title='Edit post' onClick={() => setEditFormActive(true)} className='btn btn-sm btn-success'>
+                        🖉
+                    </button>
+                    <button title='Delete post' className='btn btn-sm btn-danger'>
+                        🗑
+                    </button>
+                </div> 
             }
             <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
                 {post.content}
@@ -46,13 +53,14 @@ export default function Post( {post} ) {
                 <Link to={`/post/${post.id}`}>
                     {postDate}
                 </Link>
-                {post.editDate && <span title={`Original post: ${postDate}\nLast edited: ${editDate}`}>&nbsp;(Edited)</span>}
+                &nbsp;
+                {post.editDate && <span className='edited' title={`Original post: ${postDate}\nLast edited: ${editDate}`}>(Edited)</span>}
             </div>
             <div className='postStats btn-group'>
-                <button className={buttonStyle + 'btn-outline-danger'} onClick={() => {likePost(post.id, auth.token, socket)}}>
-                    ❤️ {likes} 
+                <button title={`${likeCount} likes`}className={buttonStyle + 'btn-outline-danger'} onClick={() => {likePost(post.id, auth.token, socket)}}>
+                    ❤️ {likeCount} 
                 </button>
-                <Link to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary'}>
+                <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary'}>
                     🗫 {post._count.replies}
                 </Link>
             </div>

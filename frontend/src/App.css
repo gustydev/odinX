@@ -168,3 +168,8 @@ strong {
 .profile-link:hover {
     text-decoration: underline;
 }
+
+.edited:hover {
+    text-decoration: underline;
+    cursor:default;
+}

@@ -4,7 +4,7 @@ import { newPost, editPost } from "../../utils/apiRequests";
 export default function PostForm( {auth, setFormActive, editing, post} ) {
     const { register, handleSubmit, formState: { errors} } = useForm({
         defaultValues: {
-            content: post.content
+            content: post?.content
         }
     });
 
