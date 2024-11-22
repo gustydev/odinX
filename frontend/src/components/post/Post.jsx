@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserInfo from "../user/UserInfo";
 import PostForm from "./PostForm";
+import { dateFormat } from "../../utils/dateFormat";
 
 const buttonStyle = 'btn rounded-2 border-0 '
 
@@ -29,8 +30,8 @@ export default function Post( {post} ) {
         })
     }, [socket, post])
 
-    const postDate = new Date(post.postDate).toLocaleString();
-    const editDate = new Date(post.editDate).toLocaleString();
+    const postDate = dateFormat(post.postDate)
+    const editDate = dateFormat(post.editDate)
 
     return (
         <div className='post'>

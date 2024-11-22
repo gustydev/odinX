@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import EditProfileForm from "./EditProfileForm";
 import UserInfo from "../user/UserInfo";
+import { dateFormat } from "../../utils/dateFormat";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
 
@@ -42,7 +43,7 @@ export default function Profile() {
             <div>
                 <UserInfo user={user} socket={socket} />
                 <p className='line-break-anywhere mt-2 mb-2'>{user.bio}</p>
-                <p>Member since {new Date(user.joinDate).toLocaleDateString()}</p>
+                <p>Member since {dateFormat(user.joinDate)}</p>
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>
                 
