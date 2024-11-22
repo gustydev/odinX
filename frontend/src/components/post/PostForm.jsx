@@ -1,19 +1,27 @@
 import { useForm } from "react-hook-form";
-import { newPost } from "../../utils/apiRequests";
+import { newPost, editPost } from "../../utils/apiRequests";
 
-export default function NewPostForm( {auth, setPostFormActive} ) {
-    const { register, handleSubmit, formState: { errors} } = useForm();
+export default function PostForm( {auth, setFormActive, editing, post} ) {
+    const { register, handleSubmit, formState: { errors} } = useForm({
+        defaultValues: {
+            content: post.content
+        }
+    });
 
-    async function handleNewPost(data) {
-        await newPost(data, auth.token)
+    async function handlePost(data) {
+        if (editing) {
+            await editPost(post.id, data, auth.token)
+        } else {
+            await newPost(data, auth.token)
+        }
     }
 
     return (
-        <form className='modal-form' onSubmit={handleSubmit(handleNewPost)}>
-            <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setPostFormActive(false)}>X</button>
+        <form className='modal-form' onSubmit={handleSubmit(handlePost)}>
+            <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setFormActive(false)}>X</button>
             <div className='form-group'>
                 <label htmlFor="content" className='mb-3'>
-                    <h2>🖉 New Post</h2>
+                    <h2>🖉 {editing ? 'Edit' : 'New'} Post</h2>
                 </label>
 
                 <textarea 

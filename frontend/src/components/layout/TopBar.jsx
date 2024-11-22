@@ -5,7 +5,7 @@ export default function TopBar() {
 
     return (
         <div className='topbar'>
-            <h1>OdinX</h1>
+            <h1>Odin-X</h1>
             {auth.token && (
                 <button onClick={auth.logOut} className='btn btn-outline-secondary'>
                     Log out

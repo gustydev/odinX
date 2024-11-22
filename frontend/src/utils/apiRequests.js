@@ -85,3 +85,21 @@ export async function editProfile(userId, data, token) {
         })
     }
 }
+
+export async function editPost(postId, data, token) {
+    try {
+        await apiRequest(`${API_URL}/api/post/${postId}`, {
+            method: 'put',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        location.reload()
+    } catch (err) {
+        err.details?.forEach((d) => {
+            toast.error(d.msg)
+        })
+    }
+}

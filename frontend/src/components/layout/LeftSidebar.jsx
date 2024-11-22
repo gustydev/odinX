@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import { useNavigate } from "react-router-dom";
-import NewPostForm from "../post/NewPostForm";
+import PostForm from "../post/PostForm";
 
 const buttonStyle = 'btn fw-bold rounded-0 ';
 
@@ -26,9 +26,9 @@ export default function LeftSidebar() {
             </button>
             <div className={"modal " + (postFormActive ? 'd-block' : 'd-none')}>
             {postFormActive && (
-                <NewPostForm 
+                <PostForm 
                     auth={auth} 
-                    setPostFormActive={setPostFormActive} 
+                    setFormActive={setPostFormActive} 
                 />
             )}
             </div>
