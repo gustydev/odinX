@@ -7,6 +7,7 @@ const { postInclude } = require('../utils/queryFilters');
 exports.getPosts = asyncHandler(async (req, res, next) => {
     let { page, limit, filter, sort = 'desc', replies = false, follows = false } = req.query;
 
+    // convert string 'false' to boolean
     if (replies === 'false') replies = false;
     if (follows === 'false') follows = false;
 

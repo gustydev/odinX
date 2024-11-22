@@ -42,13 +42,14 @@ exports.getUserPosts = asyncHandler(async (req, res, next) => {
             postDate: sort
         },
         where: {
-            authorId: req.params.userId,
+            authorId: likes ? undefined : req.params.userId,
+            // Likes=true query returns posts of any authors
             content: { contains: filter },
             parentPostId: replies ? { not: null } : likes ? undefined : null,
             // replies=true returns only replies (combined with likes=true, only liked replies)
             // replies=false and likes=true returns any posts liked
             // likes=false and replies=false returns only original posts
-            likes: likes ? { some: { likedById: req.user.id } } : undefined
+            likes: likes ? { some: { likedById: req.params.userId } } : undefined
         },
         include: postInclude
     })
