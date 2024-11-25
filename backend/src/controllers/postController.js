@@ -3,6 +3,7 @@ const { checkIfValid } = require("gusty-middlewares");
 const { validateNewPost } = require("../utils/validationChains");
 const prisma = require('../prisma/client');
 const { postInclude } = require('../utils/queryFilters');
+const { ForbiddenError } = require('gusty-custom-errors')
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
     let { page, limit, filter, sort = 'desc', replies = false, follows = false } = req.query;
@@ -127,6 +128,12 @@ exports.editPost = [
     checkIfValid,
 
     asyncHandler(async (req, res, next) => {
+        const postToBeEdited = await prisma.post.findFirst({where: {id: req.params.postId}})
+
+        if (!postToBeEdited.authorId.equals(req.user.id)) {
+            throw new ForbiddenError("Cannot edit someone else's post")
+        }
+
         const post = await prisma.post.update({where: {id: req.params.postId}, data: {
             content: req.body.content,
             editDate: new Date()
@@ -135,3 +142,13 @@ exports.editPost = [
         return res.status(200).json({message: 'Post updated', post})
     })
 ]
+
+exports.deletePost = asyncHandler(async (req, res, next) => {
+    const postToBeDeleted = await prisma.post.findFirst({where: {id: req.params.postId}})
+
+    if (!postToBeDeleted.authorId.equals(req.user.id)) {
+        throw new ForbiddenError("Cannot delete someone else's post")
+    }
+
+    
+});

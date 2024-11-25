@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
 const { validateProfileEdit } = require("../utils/validationChains");
 const { postInclude, userQuery } = require('../utils/queryFilters');
+const { ForbiddenError } = require('gusty-custom-errors');
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
@@ -12,17 +13,11 @@ exports.getUserById = [
 ]
 
 exports.getUsersList = asyncHandler(async (req, res, next) => {
-    const { page, limit, filter } = req.query;
+    const { page, limit } = req.query;
 
     const users = await prisma.user.findMany({...userQuery,
         skip: (page - 1) * limit || undefined,
-        take: Number(limit) || undefined,
-        // where: {
-        //     OR: [
-        //         { displayName: { contains: filter } },
-        //         { username: { contains: filter } }
-        //     ]
-        // },
+        take: Number(limit) || undefined
     });
 
     return res.status(200).json(users);
@@ -89,6 +84,10 @@ exports.editProfile = [
 
     asyncHandler(async (req, res, next) => {
         const current = await prisma.user.findUnique({where: {id: req.params.userId}});
+
+        if (!current.id.equals(req.user.id)) {
+            throw new ForbiddenError("Cannot edit someone else's profile")
+        }
         
         const user = await prisma.user.update({...userQuery, where: { id: req.params.userId },
             data: {
