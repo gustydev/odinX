@@ -44,7 +44,8 @@ exports.getUserPosts = asyncHandler(async (req, res, next) => {
             // replies=true returns only replies (combined with likes=true, only liked replies)
             // replies=false and likes=true returns any posts liked
             // likes=false and replies=false returns only original posts
-            likes: likes ? { some: { likedById: req.params.userId } } : undefined
+            likes: likes ? { some: { likedById: req.params.userId } } : undefined,
+            postType: 'userPost' // Do not return "deleted" posts
         },
         include: postInclude
     })
@@ -85,7 +86,7 @@ exports.editProfile = [
     asyncHandler(async (req, res, next) => {
         const current = await prisma.user.findUnique({where: {id: req.params.userId}});
 
-        if (!current.id === user.id) {
+        if (current.id !== req.user.id) {
             throw new ForbiddenError("Cannot edit someone else's profile")
         }
         

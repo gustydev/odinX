@@ -45,10 +45,10 @@ export default function Post( {post} ) {
         <div className='post position-relative'>
             {post.postType === 'systemPost' ? (
                 // If the post was deleted, return just the content and the button to view replies
-                <div className='postContent mb-3 mt-1 d-flex flex-column'>
+                <div className='postContent mb-3 mt-1 d-flex justify-content-between align-items-center'>
                     {post.content}
                     {post._count.replies > 0 && 
-                    <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary align-self-start mt-1'}>
+                    <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-dark align-self-start mt-1'}>
                         🗫 {post._count.replies}
                     </Link>}
                 </div>

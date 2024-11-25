@@ -57,6 +57,7 @@ export default function PostPage() {
                     return <Post key={reply.id} post={reply}/>
                 })}
             </div>
+            {post.postType === 'userPost' && 
             <form onSubmit={handleSubmit(handlePostReply)} className='form-group d-flex flex-column gap-1'>
                 <textarea 
                     {...register('content', {
@@ -69,6 +70,7 @@ export default function PostPage() {
                 />
                 <input type="submit" value="Reply" className="btn btn-warning rounded-0 align-self-end" />
             </form>
+            }
         </div>
     )
 }

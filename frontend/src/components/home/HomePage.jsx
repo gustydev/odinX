@@ -55,7 +55,7 @@ export default function HomePage() {
                     Your following
                 </button>
                 <button className={buttonStyle + (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
-                    All posts
+                    Explore all posts
                 </button>
             </div>
             {loading ? <Loading /> : (

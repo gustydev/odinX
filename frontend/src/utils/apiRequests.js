@@ -114,7 +114,7 @@ export async function deletePost(postId, token) {
                 'Content-Type': 'application/json'
             }
         })
-        location.reload()
+        window.location = '/'
     } catch (err) {
         console.log(err)
     }

@@ -27,7 +27,8 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
         where: {
             content: { contains: filter },
             parentPostId: !replies ? null : {not: null}, // if replies = false, parentPostId = null; otherwise, parentPostId is non-null.
-            author: follows ? { id: { in: user.following.map(f => f.id) } } : undefined
+            author: follows ? { id: { in: user.following.map(f => f.id) } } : undefined,
+            postType: 'userPost' // Do not return the "deleted by user" posts
         },
         include: postInclude
     })
@@ -130,7 +131,7 @@ exports.editPost = [
     asyncHandler(async (req, res, next) => {
         const postToBeEdited = await prisma.post.findFirst({where: {id: req.params.postId}})
 
-        if (!postToBeEdited.authorId === req.user.id) {
+        if (postToBeEdited.authorId !== req.user.id) {
             throw new ForbiddenError("Cannot edit someone else's post")
         }
 
@@ -146,7 +147,7 @@ exports.editPost = [
 exports.deletePost = asyncHandler(async (req, res, next) => {
     const post = await prisma.post.findFirst({where: {id: req.params.postId}})
 
-    if (!post.authorId === req.user.id) {
+    if (post.authorId !== req.user.id) {
         throw new ForbiddenError("Cannot delete someone else's post")
     }
 
@@ -156,7 +157,7 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
         postType: 'systemPost'
     }
 
-    await prisma.post.update({where: { id: req.params.postId}, data: placeholder});
+    await prisma.post.update({where: { id: req.params.postId }, data: placeholder});
 
     return res.status(200).json({message: `Post #${post.id} deleted`})
 });
