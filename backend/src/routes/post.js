@@ -16,6 +16,6 @@ post.post('/:postId/like', convertParams, validateToken, controller.likePost) //
 
 post.put('/:postId', convertParams, validateToken, controller.editPost) // edit a post
 
-post.delete('/:postId', convertParams)
+post.delete('/:postId', convertParams, validateToken, controller.deletePost)
 
 module.exports = post;

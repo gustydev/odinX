@@ -30,12 +30,13 @@ model Post {
   attachmentUrl String?
   postDate      DateTime  @default(now())
   editDate      DateTime?
-  author        User      @relation(fields: [authorId], references: [id])
-  authorId      Int
+  author        User?      @relation(fields: [authorId], references: [id])
+  authorId      Int?
   likes         Like[]
   replies       Post[]    @relation("replies")
   parentPost    Post?     @relation("replies", fields: [parentPostId], references: [id])
   parentPostId  Int?
+  postType      String    @default("userPost") // userPost for regular post, systemPost for placeholder deletion post
 }
 
 model Like {

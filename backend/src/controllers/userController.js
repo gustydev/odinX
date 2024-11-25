@@ -85,7 +85,7 @@ exports.editProfile = [
     asyncHandler(async (req, res, next) => {
         const current = await prisma.user.findUnique({where: {id: req.params.userId}});
 
-        if (!current.id.equals(req.user.id)) {
+        if (!current.id === user.id) {
             throw new ForbiddenError("Cannot edit someone else's profile")
         }
         

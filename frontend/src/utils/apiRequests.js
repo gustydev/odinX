@@ -98,8 +98,24 @@ export async function editPost(postId, data, token) {
         })
         location.reload()
     } catch (err) {
+        console.log(err)
         err.details?.forEach((d) => {
             toast.error(d.msg)
         })
+    }
+}
+
+export async function deletePost(postId, token) {
+    try {
+        await apiRequest(`${API_URL}/api/post/${postId}`, {
+            method: 'delete',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        location.reload()
+    } catch (err) {
+        console.log(err)
     }
 }

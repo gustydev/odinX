@@ -130,7 +130,7 @@ exports.editPost = [
     asyncHandler(async (req, res, next) => {
         const postToBeEdited = await prisma.post.findFirst({where: {id: req.params.postId}})
 
-        if (!postToBeEdited.authorId.equals(req.user.id)) {
+        if (!postToBeEdited.authorId === req.user.id) {
             throw new ForbiddenError("Cannot edit someone else's post")
         }
 
@@ -144,11 +144,19 @@ exports.editPost = [
 ]
 
 exports.deletePost = asyncHandler(async (req, res, next) => {
-    const postToBeDeleted = await prisma.post.findFirst({where: {id: req.params.postId}})
+    const post = await prisma.post.findFirst({where: {id: req.params.postId}})
 
-    if (!postToBeDeleted.authorId.equals(req.user.id)) {
+    if (!post.authorId === req.user.id) {
         throw new ForbiddenError("Cannot delete someone else's post")
     }
 
-    
+    const placeholder = {
+        authorId: null,
+        content: 'Post deleted by user',
+        postType: 'systemPost'
+    }
+
+    await prisma.post.update({where: { id: req.params.postId}, data: placeholder});
+
+    return res.status(200).json({message: `Post #${post.id} deleted`})
 });

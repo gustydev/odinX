@@ -1,6 +1,6 @@
 import { useLocation, useOutletContext } from "react-router-dom";
 import useAuth from "../../hooks/useAuth/useAuth"
-import { likePost } from "../../utils/apiRequests";
+import { deletePost, likePost } from "../../utils/apiRequests";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserInfo from "../user/UserInfo";
@@ -30,43 +30,64 @@ export default function Post( {post} ) {
         })
     }, [socket, post])
 
+    async function handleDelete() {
+        const popup = confirm('Are you sure you want to delete your post? This cannot be undone! (Note: replies will remain intact)')
+        if (popup) {
+            await deletePost(post.id, auth.token)
+        }
+        return;
+    }
+
     const postDate = dateFormat(post.postDate)
     const editDate = dateFormat(post.editDate)
-    
+
     return (
         <div className='post position-relative'>
-            <UserInfo user={post.author} socket={socket} />
-            {post.author.id === auth.user.id &&
-                <div className='btn-group position-absolute end-0 top-0'>
-                    <button title='Edit post' onClick={() => setEditFormActive(true)} className='btn btn-sm btn-success'>
-                        🖉
+            {post.postType === 'systemPost' ? (
+                // If the post was deleted, return just the content and the button to view replies
+                <div className='postContent mb-3 mt-1 d-flex flex-column'>
+                    {post.content}
+                    {post._count.replies > 0 && 
+                    <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary align-self-start mt-1'}>
+                        🗫 {post._count.replies}
+                    </Link>}
+                </div>
+            ) : (
+                <>
+                <UserInfo user={post.author} socket={socket} />
+                {post.author.id === auth.user.id &&
+                    <div className='btn-group position-absolute end-0 top-0'>
+                        <button title='Edit post' onClick={() => setEditFormActive(true)} className='btn btn-sm btn-success'>
+                            🖉
+                        </button>
+                        <button title='Delete post' className='btn btn-sm btn-danger' onClick={handleDelete}>
+                            🗑
+                        </button>
+                    </div> 
+                }
+                <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
+                    {post.content}
+                </div>
+                <div className='postDate'>
+                    <Link to={`/post/${post.id}`}>
+                        {postDate}
+                    </Link>
+                    &nbsp;
+                    {post.editDate && <span className='edited' title={`Original post: ${postDate}\nLast edited: ${editDate}`}>(Edited)</span>}
+                </div>
+                <div className='postStats btn-group'>
+                    <button title={`${likeCount} likes`}className={buttonStyle + 'btn-outline-danger'} onClick={() => {likePost(post.id, auth.token, socket)}}>
+                        ❤️ {likeCount} 
                     </button>
-                    <button title='Delete post' className='btn btn-sm btn-danger'>
-                        🗑
-                    </button>
-                </div> 
-            }
-            <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
-                {post.content}
-            </div>
-            <div className='postDate'>
-                <Link to={`/post/${post.id}`}>
-                    {postDate}
-                </Link>
-                &nbsp;
-                {post.editDate && <span className='edited' title={`Original post: ${postDate}\nLast edited: ${editDate}`}>(Edited)</span>}
-            </div>
-            <div className='postStats btn-group'>
-                <button title={`${likeCount} likes`}className={buttonStyle + 'btn-outline-danger'} onClick={() => {likePost(post.id, auth.token, socket)}}>
-                    ❤️ {likeCount} 
-                </button>
-                <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary'}>
-                    🗫 {post._count.replies}
-                </Link>
-            </div>
-            <div className={"modal " + (editFormActive ? 'd-block' : 'd-none')}>
-                {editFormActive && <PostForm auth={auth} setFormActive={setEditFormActive} editing={true} post={post} />}
-            </div>
+                    <Link title={`${post._count.replies} replies`}to={`/post/${post.id}`} className={buttonStyle + 'btn-outline-primary'}>
+                        🗫 {post._count.replies}
+                    </Link>
+                </div>
+                <div className={"modal " + (editFormActive ? 'd-block' : 'd-none')}>
+                    {editFormActive && <PostForm auth={auth} setFormActive={setEditFormActive} editing={true} post={post} />}
+                </div>
+                </>
+            )}
         </div>
     )
 }
