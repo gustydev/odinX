@@ -1,6 +1,7 @@
 import LoginForm from "./LoginForm";
 import { Link } from "react-router-dom";
 import useAuth from '../../hooks/useAuth/useAuth'
+import { registerUser } from "../../utils/apiRequests";
 
 export default function Login() {
     const auth = useAuth();
@@ -9,11 +10,20 @@ export default function Login() {
         await auth.userLogin(data)
     }
 
-    async function loginDemo() {
-        await login({
+    async function demo() {
+        const data = {
             username: import.meta.env.VITE_DEMO_USERNAME,
-            password: import.meta.env.VITE_DEMO_PASSWORD
-        })
+            password: import.meta.env.VITE_DEMO_PASSWORD,
+            displayName: 'Demo Man',
+            confirmPassword: import.meta.env.VITE_DEMO_PASSWORD,
+            demo: true
+        }
+
+        // Create the demo account, if it doesn't exist
+        await registerUser(data);
+
+        // Log in with it
+        await login(data)
     }
 
     return (
@@ -23,7 +33,7 @@ export default function Login() {
             <Link to='/auth/register'>
                 <button className="btn btn-warning">Create an account</button>
             </Link>
-            <button className='btn btn-success' onClick={loginDemo}>Use a demo account</button>
+            <button className='btn btn-success' onClick={demo}>Use a demo account</button>
         </main>
     )
 }

@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
 const { validateProfileEdit } = require("../utils/validationChains");
 const { postInclude, userQuery } = require('../utils/queryFilters');
-const { ForbiddenError, UnauthorizedError } = require('gusty-custom-errors');
+const { ForbiddenError } = require('gusty-custom-errors');
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {

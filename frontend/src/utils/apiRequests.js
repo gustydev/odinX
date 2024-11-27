@@ -1,6 +1,27 @@
 import { API_URL, apiRequest } from "./api";
 import { toast } from "react-toastify";
 
+export async function registerUser(data, nav) {
+    try {
+        await apiRequest(`${API_URL}/api/auth/register`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        toast.success(`User ${data.username} registered successfully! Proceed to log in`)
+        nav('/auth/login')
+    } catch (err) {
+        // Only toast error messages if trying to register a non demo account
+        if (!data.demo) {
+            err.details.forEach((e) => {
+                toast.error(e.msg);
+            })
+        }
+    }
+}
+
 export async function likePost(postId, token, socket) {
     try {
         const data = await apiRequest(`${API_URL}/api/post/${postId}/like`, {
