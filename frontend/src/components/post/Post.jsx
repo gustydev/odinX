@@ -55,7 +55,7 @@ export default function Post( {post} ) {
             ) : (
                 <>
                 <UserInfo user={post.author} socket={socket} />
-                {post.author.id === auth.user.id &&
+                {post.author.id === auth.user.id && !auth.user.demo && 
                     <div className='btn-group position-absolute end-0 top-0'>
                         <button title='Edit post' onClick={() => setEditFormActive(true)} className='btn btn-sm btn-success'>
                             🖉

@@ -39,7 +39,7 @@ export default function Profile() {
         <div className="user-profile">
             <div className="page-bar position-relative">
                 <h2>Profile</h2>
-                {auth.user.id === user.id && 
+                {auth.user.id === user.id && !auth.user.demo &&  
                     <div className='btn-group'>
                         <button className={profileActionButton} onClick={() => setEditFormActive(true)}>🖉 Edit</button>
                         <button className={profileActionButton} onClick={() => setDeleteFormActive(true)}>🗑 Delete account</button>
