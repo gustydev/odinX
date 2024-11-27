@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const prisma = require('../prisma/client');
 const { validateProfileEdit } = require("../utils/validationChains");
 const { postInclude, userQuery } = require('../utils/queryFilters');
-const { ForbiddenError } = require('gusty-custom-errors');
+const { ForbiddenError, UnauthorizedError } = require('gusty-custom-errors');
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
@@ -100,3 +100,28 @@ exports.editProfile = [
         return res.status(200).json(user);
     })
 ];
+
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+    const user = await prisma.user.findUnique({where: { id: req.params.userId }})
+
+    if (user.id !== req.user.id) {
+        throw new ForbiddenError('Cannot delete another user')
+    }
+
+    // Delete posts and replace them with placeholder
+    const placeholder = {
+        authorId: null,
+        content: 'Post deleted by user',
+        postType: 'systemPost'
+    }
+
+    await prisma.post.updateMany({ where: { authorId: user.id }, data: placeholder })
+
+    // Delete any likes of the user
+    await prisma.like.deleteMany({ where: { likedById: user.id } })
+
+    // Finally, remove the user
+    await prisma.user.delete({ where: { id: user.id } });
+
+    return res.status(200).json({message: `User ${user.username} deleted.`})
+})

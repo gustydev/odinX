@@ -4,7 +4,9 @@ const userQuery = {
         _count: {
             select: {
                 followers: true,
-                following: true
+                following: true,
+                posts: true,
+                likes: true
             }
         },
         followers: { select: { id: true } },

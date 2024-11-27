@@ -119,3 +119,18 @@ export async function deletePost(postId, token) {
         console.log(err)
     }
 }
+
+export async function deleteUser(userId, token, logout) {
+    try {
+        await apiRequest(`${API_URL}/api/user/${userId}`, {
+            method: 'delete',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        logout(); // Log out the user
+        window.location = '/' // Redirect to front page (login, since user is logged out)
+    } catch (err) {
+        console.log(err)
+    }
+}

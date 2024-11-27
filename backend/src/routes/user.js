@@ -14,6 +14,6 @@ user.post('/:userId/follow', convertParams, validateToken, controller.followUser
 
 user.put('/:userId', convertParams, validateToken, controller.editProfile) // update profile of user (display name, pfp, bio etc)
 
-user.delete('/:userId', convertParams)
+user.delete('/:userId', convertParams, validateToken, controller.deleteUser) // first deletes posts, then likes, then finally the user
 
 module.exports = user;

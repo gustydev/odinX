@@ -8,13 +8,16 @@ import useAuth from "../../hooks/useAuth/useAuth";
 import EditProfileForm from "./EditProfileForm";
 import UserInfo from "../user/UserInfo";
 import { dateFormat } from "../../utils/dateFormat";
+import DeleteForm from "./DeleteForm";
 
 const buttonStyle = 'btn btn-outline-dark rounded-0 border-dark '
+const profileActionButton = buttonStyle + 'btn-sm'
 
 export default function Profile() {
     const { userId } = useParams();
     const [tab, setTab] = useState('posts');
     const [editFormActive, setEditFormActive] = useState(false);
+    const [deleteFormActive, setDeleteFormActive] = useState(false)
     const { data: user, setData: setUser, loading: userLoading, error: userError } = useData(`user/${userId}`);
     const postQuery = tab === 'replies' ? 'replies=true' : tab === 'likes' ? 'likes=true' : '';
     const { data: posts, loading: postsLoading, error: postsError } = useData(`user/${userId}/posts?${postQuery}`);
@@ -37,7 +40,10 @@ export default function Profile() {
             <div className="page-bar position-relative">
                 <h2>Profile</h2>
                 {auth.user.id === user.id && 
-                    <button className={buttonStyle + 'btn-sm position-absolute top-0 end-0'} onClick={() => setEditFormActive(true)}>🖉 Edit</button>
+                    <div className='btn-group'>
+                        <button className={profileActionButton} onClick={() => setEditFormActive(true)}>🖉 Edit</button>
+                        <button className={profileActionButton} onClick={() => setDeleteFormActive(true)}>🗑 Delete account</button>
+                    </div>
                 }
             </div>
             <div>
@@ -60,8 +66,9 @@ export default function Profile() {
                 </button>
             </div>
             {postsLoading? <Loading/> : postsError ? <FetchError error={postsError} /> : <PostList posts={posts} />}
-            <div className={"modal " + (editFormActive ? 'd-block' : 'd-none')}>
+            <div className={"modal " + (editFormActive || deleteFormActive ? 'd-block' : 'd-none')}>
                 {editFormActive && <EditProfileForm user={user} auth={auth} setEditFormActive={setEditFormActive} />}
+                {deleteFormActive && <DeleteForm user={user} auth={auth} setDeleteFormActive={setDeleteFormActive} />}
             </div>
         </div>
     )
