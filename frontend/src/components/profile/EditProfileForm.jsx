@@ -10,11 +10,11 @@ export default function EditProfileForm( {auth, setEditFormActive, user} ) {
     });
 
     async function submitEdit(data) {
-        await editProfile(auth.user.id, data, auth.token)
+        await editProfile(auth.user.id, {...data, pic: data.pic[0]}, auth.token)
     }
 
     return (
-        <form className='modal-form' onSubmit={handleSubmit(submitEdit)}>
+        <form className='modal-form' onSubmit={handleSubmit(submitEdit)} encType="multipart/form-data">
             <button className='btn btn-dark btn-sm close-form-btn rounded-0' onClick={() => setEditFormActive(false)}>X</button>
             <h2>🖉 Edit Profile</h2>
             <div className="form-group">
@@ -48,6 +48,18 @@ export default function EditProfileForm( {auth, setEditFormActive, user} ) {
                 className={`form-control ${errors.bio ? "is-invalid" : ""}`}   
                 />
                 {errors.bio && <span className="error">{errors.bio.message}</span>}
+            </div>
+            <div className='form-group'>
+                <label htmlFor="pic">
+                    <h3>Profile picture (up to 3MB):</h3>
+                </label>
+
+                <input 
+                {...register('pic', {
+                    required: false
+                })}
+                className='form-control' type="file" name="pic" id="pic"
+                />
             </div>
             <button type="submit" className='btn btn-dark'>Update</button>
         </form>

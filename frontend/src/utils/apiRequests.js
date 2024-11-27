@@ -91,14 +91,23 @@ export async function followUser(userId, token, socket) {
 
 export async function editProfile(userId, data, token) {
     try {
+        const formData = new FormData();
+
+        formData.append('displayName', data.displayName);
+        formData.append('bio', data.bio);
+
+        if (data.pic && data.pic instanceof File) {
+            formData.append('pic', data.pic);
+        }
+
         await apiRequest(`${API_URL}/api/user/${userId}`, {
             method: 'put',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(data)
+            body: formData
         })
+
         location.reload()
     } catch (err) {
         err.details?.forEach((d) => {

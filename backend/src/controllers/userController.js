@@ -3,6 +3,12 @@ const prisma = require('../prisma/client');
 const { validateProfileEdit } = require("../utils/validationChains");
 const { postInclude, userQuery } = require('../utils/queryFilters');
 const { ForbiddenError } = require('gusty-custom-errors');
+const multer = require('multer');
+const upload = multer({storage: multer.memoryStorage(), limits: {fileSize: 3 * 1024 * 1024}}) // 3MB Limit
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    secure: true
+});
 
 exports.getUserById = [
     asyncHandler(async (req, res, next) => {
@@ -81,6 +87,8 @@ exports.followUser = asyncHandler(async (req, res, next) => {
 })
 
 exports.editProfile = [
+    upload.single('pic'),
+
     validateProfileEdit,
 
     asyncHandler(async (req, res, next) => {
@@ -89,11 +97,31 @@ exports.editProfile = [
         if (current.id !== req.user.id) {
             throw new ForbiddenError("Cannot edit someone else's profile")
         }
+
+        let imgUrl;
+        
+        if (req.file) {
+            if (!req.file.mimetype.startsWith('image/') || req.file.size === 0) {
+                const error = new Error('Invalid file: must be an image, and must have more than 0 bytes')
+                error.statusCode = 400;
+                throw error;
+            }
+
+            await new Promise((resolve) => {
+                cloudinary.uploader.upload_stream({resource_type: 'image'}, (error, result) => {
+                    return resolve(result)
+                }).end(req.file.buffer)
+            }).then(result => {
+                console.log('Buffer uplodaded: ', result.public_id)
+                imgUrl = result.secure_url
+            })
+        }
         
         const user = await prisma.user.update({...userQuery, where: { id: req.params.userId },
             data: {
                 displayName: req.body.displayName || current.username,
-                bio: req.body.bio
+                bio: req.body.bio,
+                profilePicUrl: imgUrl
             }
         });
 

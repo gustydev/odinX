@@ -20,6 +20,13 @@ export default function UserInfo( {user, socket, isListItem} ) {
     function Info() {
         return (
             <>
+            {userInfo.profilePicUrl && 
+                <img 
+                src={userInfo.profilePicUrl} 
+                alt={`${userInfo.username}'s profile picture`} 
+                className='img-fluid'
+                />
+            }
             <div className="d-inline-block text-truncate">
                 <Link to={`/user/${userInfo.id}`} className='profile-link'>
                     <strong>{userInfo.displayName}</strong>
