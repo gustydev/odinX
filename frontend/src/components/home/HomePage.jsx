@@ -7,7 +7,7 @@ import PostList from "../post/PostList";
 const buttonStyle = 'btn btn-outline-dark font-weight-bold rounded-0 '
 
 export default function HomePage() {
-    const [tab, setTab] = useState('follows');
+    const [tab, setTab] = useState('all');
     const [page, setPage] = useState(1);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -51,11 +51,11 @@ export default function HomePage() {
                 <h2>Home</h2>
             </div>
             <div className='btn-group d-flex mb-4'>
-                <button className={buttonStyle + (tab === 'follows' ? 'active' : '')} onClick={() => setTab('follows')}>
-                    Your following
-                </button>
                 <button className={buttonStyle + (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
                     Explore all posts
+                </button>
+                <button className={buttonStyle + (tab === 'follows' ? 'active' : '')} onClick={() => setTab('follows')}>
+                    Your following
                 </button>
             </div>
             {loading ? <Loading /> : (

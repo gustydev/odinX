@@ -173,3 +173,9 @@ strong {
     text-decoration: underline;
     cursor:default;
 }
+
+.pic {
+    height: 30px;
+    width: auto;
+    border-radius: 50%;
+}
