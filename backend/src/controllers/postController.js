@@ -88,6 +88,10 @@ exports.newPost = [
                 throw error;
             }
 
+            if (req.user.demo) {
+                throw new ForbiddenError('Demo accounts cannot perform this action. Create a free account to do it!')
+            }
+
             await new Promise((resolve) => {
                 cloudinary.uploader.upload_stream({resource_type: 'auto'}, (error, result) => {
                     return resolve(result)

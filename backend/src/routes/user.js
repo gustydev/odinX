@@ -2,6 +2,7 @@ const user = require('express').Router()
 const { validateToken } = require('gusty-middlewares');
 const controller = require('../controllers/userController');
 const { convertParams } = require("../middlewares/convertParams");
+const { checkIfDemo } = require('../middlewares/checkIfDemo')
 
 user.get('/list', validateToken, controller.getUsersList) // List of users (add limit/pagination)
 
@@ -12,8 +13,8 @@ user.get('/:userId/follows', convertParams) // shows both following and follower
 
 user.post('/:userId/follow', convertParams, validateToken, controller.followUser) // follow an user by id
 
-user.put('/:userId', convertParams, validateToken, controller.editProfile) // update profile of user (display name, pfp, bio etc)
+user.put('/:userId', convertParams, validateToken, checkIfDemo, controller.editProfile) // update profile of user (display name, pfp, bio etc)
 
-user.delete('/:userId', convertParams, validateToken, controller.deleteUser) // first deletes posts, then likes, then finally the user
+user.delete('/:userId', convertParams, validateToken, checkIfDemo, controller.deleteUser) // first deletes posts, then likes, then finally the user
 
 module.exports = user;

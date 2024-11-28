@@ -39,7 +39,7 @@ export default function PostForm( {auth, setFormActive, editing, post} ) {
                 />
                 {errors.content && <span className="error">{errors.content.message}</span>}
             </div>
-            {!editing && <div className='form-group'>
+            {!editing && !auth.user.demo && <div className='form-group'>
                 <label htmlFor="attachment">
                     <h3>Attach image/video (up to 3MB):</h3>
                 </label>

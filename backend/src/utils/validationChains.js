@@ -92,7 +92,7 @@ exports.validateNewPost = [
         if (!req.file && content.length < 1) {
             throw new Error('Post must have text content or an attachment')
         }
-        
+
         return true
     }),
 ];
