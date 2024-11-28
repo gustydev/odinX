@@ -15,6 +15,7 @@ model User {
   password      String
   joinDate      DateTime @default(now())
   profilePicUrl String?
+  attachmentId  String?
   bio           String?
   admin         Boolean  @default(false)
   demo          Boolean  @default(false)
@@ -29,6 +30,7 @@ model Post {
   content        String?
   attachmentUrl  String?
   attachmentType String?
+  attachmentId   String?
   postDate       DateTime  @default(now())
   editDate       DateTime?
   author         User?     @relation(fields: [authorId], references: [id])

@@ -98,7 +98,7 @@ exports.editProfile = [
             throw new ForbiddenError("Cannot edit someone else's profile")
         }
 
-        let imgUrl;
+        let imgUrl, fileId;
         
         if (req.file && !req.body.deletePic) {
             if (!req.file.mimetype.startsWith('image/') || req.file.size === 0) {
@@ -114,14 +114,15 @@ exports.editProfile = [
             }).then(result => {
                 console.log('Buffer uplodaded: ', result.public_id)
                 imgUrl = result.secure_url
+                fileId = result.public_id;
             })
         }
 
         if (req.body.deletePic) {
             imgUrl = null;
-            const publicId = current.profilePicUrl.substring(62, 82) // Extracts just the public id of cloudinary
+            fileId = null;
 
-            await cloudinary.uploader.destroy(publicId).then(() => console.log('image deleted from cloud: ', publicId))
+            await cloudinary.uploader.destroy(current.attachmentId).then(() => console.log('image deleted from cloud: ', current.attachmentId))
             // Delete image from cloud
         }
         
@@ -129,7 +130,8 @@ exports.editProfile = [
             data: {
                 displayName: req.body.displayName || current.username,
                 bio: req.body.bio,
-                profilePicUrl: imgUrl
+                profilePicUrl: imgUrl,
+                attachmentId: fileId
             }
         });
 

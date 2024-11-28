@@ -39,7 +39,7 @@ export default function PostForm( {auth, setFormActive, editing, post} ) {
                 />
                 {errors.content && <span className="error">{errors.content.message}</span>}
             </div>
-            <div className='form-group'>
+            {!editing && <div className='form-group'>
                 <label htmlFor="attachment">
                     <h3>Attach image/video (up to 3MB):</h3>
                 </label>
@@ -51,7 +51,7 @@ export default function PostForm( {auth, setFormActive, editing, post} ) {
                 type="file" name="attachment" id="attachment" 
                 className={`form-control ${errors.content ? "is-invalid" : ""}`}    
                 />
-            </div>
+            </div>}
             <button type="submit" className='btn btn-dark'>Post</button>
         </form>
     )

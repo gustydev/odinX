@@ -77,8 +77,7 @@ exports.newPost = [
     checkIfValid,
 
     asyncHandler(async (req, res, next) => {
-        let fileUrl;
-        let fileType;
+        let fileUrl, fileType, fileId;
 
         if (req.file) {
             const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
@@ -97,6 +96,7 @@ exports.newPost = [
                 console.log('Buffer uplodaded: ', result.public_id)
                 fileUrl = result.secure_url;
                 fileType = result.resource_type;
+                fileId = result.public_id;
             })
         }
 
@@ -105,7 +105,8 @@ exports.newPost = [
                 content: req.body.content,
                 authorId: req.user.id,
                 attachmentUrl: fileUrl,
-                attachmentType: fileType
+                attachmentType: fileType,
+                attachmentId: fileId
             }
         })
 
@@ -182,6 +183,11 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
 
     if (post.authorId !== req.user.id) {
         throw new ForbiddenError("Cannot delete someone else's post")
+    }
+
+    if (post.attachmentUrl) {
+        await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('attachment deleted from cloud: ', post.attachmentId))
+        // Delete attachment from cloud
     }
 
     const placeholder = {
