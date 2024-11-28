@@ -179,3 +179,9 @@ strong {
     width: auto;
     border-radius: 50%;
 }
+
+.post-attachment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

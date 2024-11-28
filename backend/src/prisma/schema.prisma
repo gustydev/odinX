@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["omitApi"]
 }
 
@@ -11,7 +11,7 @@ datasource db {
 model User {
   id            Int      @id @default(autoincrement())
   username      String   @unique
-  displayName   String  // Default to username is not in Prisma (do it in user registration)
+  displayName   String // Default to username is not in Prisma (do it in user registration)
   password      String
   joinDate      DateTime @default(now())
   profilePicUrl String?
@@ -25,18 +25,19 @@ model User {
 }
 
 model Post {
-  id            Int       @id @default(autoincrement())
-  content       String?
-  attachmentUrl String?
-  postDate      DateTime  @default(now())
-  editDate      DateTime?
-  author        User?      @relation(fields: [authorId], references: [id])
-  authorId      Int?
-  likes         Like[]
-  replies       Post[]    @relation("replies")
-  parentPost    Post?     @relation("replies", fields: [parentPostId], references: [id])
-  parentPostId  Int?
-  postType      String    @default("userPost") // userPost for regular post, systemPost for placeholder deletion post
+  id             Int       @id @default(autoincrement())
+  content        String?
+  attachmentUrl  String?
+  attachmentType String?
+  postDate       DateTime  @default(now())
+  editDate       DateTime?
+  author         User?     @relation(fields: [authorId], references: [id])
+  authorId       Int?
+  likes          Like[]
+  replies        Post[]    @relation("replies")
+  parentPost     Post?     @relation("replies", fields: [parentPostId], references: [id])
+  parentPostId   Int?
+  postType       String    @default("userPost") // userPost for regular post, systemPost for placeholder deletion post
 }
 
 model Like {

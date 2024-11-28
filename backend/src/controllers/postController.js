@@ -78,6 +78,7 @@ exports.newPost = [
 
     asyncHandler(async (req, res, next) => {
         let fileUrl;
+        let fileType;
 
         if (req.file) {
             const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
@@ -94,7 +95,8 @@ exports.newPost = [
                 }).end(req.file.buffer)
             }).then(result => {
                 console.log('Buffer uplodaded: ', result.public_id)
-                fileUrl = result.secure_url
+                fileUrl = result.secure_url;
+                fileType = result.resource_type;
             })
         }
 
@@ -102,7 +104,8 @@ exports.newPost = [
             data: {
                 content: req.body.content,
                 authorId: req.user.id,
-                attachmentUrl: fileUrl
+                attachmentUrl: fileUrl,
+                attachmentType: fileType
             }
         })
 

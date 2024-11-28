@@ -66,8 +66,16 @@ export default function Post( {post} ) {
                     </div> 
                 }
                 {post.attachmentUrl && (
-                    <div>
-                        <img src={post.attachmentUrl} alt={'attachment posted by ' + post.author.username} />
+                    <div className='post-attachment embed-responsive mt-2'>
+                        {post.attachmentType === 'image' && 
+                        <img 
+                            src={post.attachmentUrl} alt={'image posted by ' + post.author.displayName} className='img-fluid'
+                        />}
+
+                        {post.attachmentType === 'video' && 
+                        <video 
+                            src={post.attachmentUrl} controls width={600}
+                        />}
                     </div>
                 )}
                 <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
