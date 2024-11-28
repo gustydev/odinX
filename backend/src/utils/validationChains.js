@@ -86,10 +86,15 @@ exports.validateNewPost = [
     .isString()
     .withMessage('Post content must be a string')
     .trim()
-    .isLength({min: 1})
-    .withMessage('Post must have text content')
     .isLength({max: 500})
-    .withMessage('Post has a maximum length of 500 characters'),
+    .withMessage('Post has a maximum length of 500 characters')
+    .custom((content, {req}) => {
+        if (!req.file && content.length < 1) {
+            throw new Error('Post must have text content or an attachment')
+        }
+        
+        return true
+    }),
 ];
 
 exports.validateProfileEdit = [

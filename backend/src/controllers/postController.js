@@ -4,6 +4,12 @@ const { validateNewPost } = require("../utils/validationChains");
 const prisma = require('../prisma/client');
 const { postInclude } = require('../utils/queryFilters');
 const { ForbiddenError } = require('gusty-custom-errors')
+const multer = require('multer');
+const upload = multer({storage: multer.memoryStorage(), limits: {fileSize: 3 * 1024 * 1024}}) // 3MB Limit
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    secure: true
+});
 
 exports.getPosts = asyncHandler(async (req, res, next) => {
     let { page, limit, filter, sort = 'desc', replies = false, follows = false } = req.query;
@@ -65,14 +71,38 @@ exports.getPostLikes = asyncHandler(async (req, res, next) => {
 })
 
 exports.newPost = [
+    upload.single('attachment'),
+
     validateNewPost,
     checkIfValid,
 
     asyncHandler(async (req, res, next) => {
+        let fileUrl;
+
+        if (req.file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+
+            if (!validTypes.includes(req.file.mimetype) || req.file.size === 0) {
+                const error = new Error('Invalid file: must be an image or video, and must have more than 0 bytes')
+                error.statusCode = 400;
+                throw error;
+            }
+
+            await new Promise((resolve) => {
+                cloudinary.uploader.upload_stream({resource_type: 'auto'}, (error, result) => {
+                    return resolve(result)
+                }).end(req.file.buffer)
+            }).then(result => {
+                console.log('Buffer uplodaded: ', result.public_id)
+                fileUrl = result.secure_url
+            })
+        }
+
         const post = await prisma.post.create({
             data: {
                 content: req.body.content,
-                authorId: req.user.id
+                authorId: req.user.id,
+                attachmentUrl: fileUrl
             }
         })
 

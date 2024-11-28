@@ -65,6 +65,11 @@ export default function Post( {post} ) {
                         </button>
                     </div> 
                 }
+                {post.attachmentUrl && (
+                    <div>
+                        <img src={post.attachmentUrl} alt={'attachment posted by ' + post.author.username} />
+                    </div>
+                )}
                 <div className={'postContent mb-3 mt-1 ' + (truncate && 'truncate')}>
                     {post.content}
                 </div>

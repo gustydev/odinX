@@ -59,17 +59,28 @@ export async function postReply(postId, data, token, socket) {
 
 export async function newPost(data, token) {
     try {
+        const formData = new FormData()
+
+        formData.append('content', data.content)
+        if (data.attachment && data.attachment instanceof File) {
+            formData.append('attachment', data.attachment);
+        }
+        
         const res = await apiRequest(`${API_URL}/api/post`, {
             method: 'post',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(data)
+            body: formData
         })
+
         window.location = `/post/${res.post.id}`
     } catch (err) {
-        console.error(err);
+        console.log(err);
+        err.details?.forEach((d) => {
+            toast.error(d.msg)
+        })
+        if (err.message) toast.error(err.message)
     }
 }
 
