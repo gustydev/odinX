@@ -61,6 +61,20 @@ export default function EditProfileForm( {auth, setEditFormActive, user} ) {
                 className='form-control' type="file" name="pic" id="pic"
                 />
             </div>
+            {user.profilePicUrl && 
+            <div className='form-group d-flex gap-1'>
+                <label htmlFor="deletePic">
+                    <h3>Remove profile picture?</h3>
+                </label>
+
+                <input 
+                {...register('deletePic', {
+                    required: false
+                })}
+                type="checkbox" name='deletePic' id='deletePic' 
+                />
+            </div>
+            }
             <button type="submit" className='btn btn-dark'>Update</button>
         </form>
     )

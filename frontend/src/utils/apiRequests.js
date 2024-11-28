@@ -95,7 +95,8 @@ export async function editProfile(userId, data, token) {
 
         formData.append('displayName', data.displayName);
         formData.append('bio', data.bio);
-
+        if (data.deletePic) formData.append('deletePic', data.deletePic)
+        
         if (data.pic && data.pic instanceof File) {
             formData.append('pic', data.pic);
         }

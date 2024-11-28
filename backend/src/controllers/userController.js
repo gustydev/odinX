@@ -100,7 +100,7 @@ exports.editProfile = [
 
         let imgUrl;
         
-        if (req.file) {
+        if (req.file && !req.body.deletePic) {
             if (!req.file.mimetype.startsWith('image/') || req.file.size === 0) {
                 const error = new Error('Invalid file: must be an image, and must have more than 0 bytes')
                 error.statusCode = 400;
@@ -115,6 +115,14 @@ exports.editProfile = [
                 console.log('Buffer uplodaded: ', result.public_id)
                 imgUrl = result.secure_url
             })
+        }
+
+        if (req.body.deletePic) {
+            imgUrl = null;
+            const publicId = current.profilePicUrl.substring(62, 82) // Extracts just the public id of cloudinary
+
+            await cloudinary.uploader.destroy(publicId).then(() => console.log('image deleted from cloud: ', publicId))
+            // Delete image from cloud
         }
         
         const user = await prisma.user.update({...userQuery, where: { id: req.params.userId },

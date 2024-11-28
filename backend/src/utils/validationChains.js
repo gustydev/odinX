@@ -107,5 +107,10 @@ exports.validateProfileEdit = [
     .withMessage("Bio must be a string")
     .trim()
     .isLength({max: 250})
-    .withMessage('Bio must have at most 250 characters')
+    .withMessage('Bio must have at most 250 characters'),
+
+    body("deletePic")
+    .optional({values: 'falsy'})
+    .isBoolean()
+    .withMessage('Delete pic must be true or false if provided'),
 ]
