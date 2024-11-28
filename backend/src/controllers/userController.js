@@ -122,7 +122,7 @@ exports.editProfile = [
             imgUrl = null;
             fileId = null;
 
-            await cloudinary.uploader.destroy(current.attachmentId).then(() => console.log('image deleted from cloud: ', current.attachmentId))
+            await cloudinary.uploader.destroy(current.attachmentId).then(() => console.log('File deleted from cloud: ', current.attachmentId))
             // Delete image from cloud
         }
         
@@ -145,6 +145,19 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     if (user.id !== req.user.id) {
         throw new ForbiddenError('Cannot delete another user')
     }
+
+    // Delete uploaded files
+    if (user.attachmentId) {
+        await cloudinary.uploader.destroy(user.attachmentId).then(() => console.log('File deleted from cloud: ', user.attachmentId))
+    }
+
+    const posts = await prisma.post.findMany({where: {authorId: req.params.userId}});
+
+    posts.forEach(async (post) => {
+        if (post.attachmentId) {
+            await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('File deleted from cloud: ', post.attachmentId));
+        }
+    })
 
     // Delete posts and replace them with placeholder
     const placeholder = {

@@ -185,8 +185,8 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
         throw new ForbiddenError("Cannot delete someone else's post")
     }
 
-    if (post.attachmentUrl) {
-        await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('attachment deleted from cloud: ', post.attachmentId))
+    if (post.attachmentId) {
+        await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('File deleted from cloud: ', post.attachmentId))
         // Delete attachment from cloud
     }
 
