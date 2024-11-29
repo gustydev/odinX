@@ -11,8 +11,9 @@ export default function RegisterForm() {
     }
 
     return (
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <div>
+        <form action="" onSubmit={handleSubmit(onSubmit)} className='auth-form mb-4'>
+            <h2>Register</h2>
+            <div className='form-group'>
                 <label htmlFor="username">Username*:</label>
                 <input
                     {...register("username", { 
@@ -26,7 +27,7 @@ export default function RegisterForm() {
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
             </div>
-            <div>
+            <div className='form-group'>
                 <label htmlFor="displayName">Display name (optional):</label>
                 <input 
                     {...register('displayName', {
@@ -39,7 +40,7 @@ export default function RegisterForm() {
                 />
                 {errors.displayName && <span className="error">{errors.displayName.message}</span>}
             </div>
-            <div>
+            <div className='form-group'>
                 <label htmlFor="password">Password*:</label>
                 <input 
                     {...register("password", { 
@@ -52,8 +53,8 @@ export default function RegisterForm() {
                 />
                 {errors.password && <span className="error">{errors.password.message}</span>}
             </div>
-            <div>
-                <label htmlFor="confirmPassword">Confirm password:</label>
+            <div className='form-group'>
+                <label htmlFor="confirmPassword">Confirm password*:</label>
                 <input 
                     {...register('confirmPassword', {
                         required: 'Required',

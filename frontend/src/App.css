@@ -47,6 +47,27 @@
     gap: 4px;
 }
 
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.199);
+    padding: 48px;
+    width: 30%;
+}
+
+.auth-form > .form-group > label {
+    font-weight: bold;
+}
+
+span.error {
+    color: red;
+}
+
+.auth-form > .form-group > input {
+    margin-bottom: 4px;
+}
+
 .replies {
     margin-top: 8px;
     display: flex;

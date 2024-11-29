@@ -4,8 +4,9 @@ export default function LoginForm( {onSubmit} ) {
     const { register, handleSubmit, formState: { errors} } = useForm();
     
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="authForm">
-            <div>
+        <form onSubmit={handleSubmit(onSubmit)} className="auth-form mb-4">
+            <h2>Log in</h2>
+            <div className='form-group'>
                 <label htmlFor="username">Username*</label>
                 <input
                     {...register("username", { 
@@ -19,7 +20,7 @@ export default function LoginForm( {onSubmit} ) {
                 />
                 {errors.username && <span className="error">{errors.username.message}</span>}
             </div>
-            <div>
+            <div className='form-group'>
                 <label htmlFor="password">Password*</label>
                 <input
                     {...register("password", { 

@@ -28,12 +28,14 @@ export default function Login() {
 
     return (
         <main className='login'>
-            <h2>Welcome!</h2>
+            <h1 className='mb-2'>Welcome to OdinX!</h1>
             <LoginForm onSubmit={login}/>
-            <Link to='/auth/register'>
-                <button className="btn btn-warning">Create an account</button>
-            </Link>
-            <button className='btn btn-success' onClick={demo}>Use a demo account</button>
+            <div className='btn-group'>
+                <button className='btn btn-success' onClick={demo}>Use demo account</button>
+                <Link to='/auth/register'>
+                    <button className="btn btn-warning">Create account</button>
+                </Link>
+            </div>
         </main>
     )
 }
