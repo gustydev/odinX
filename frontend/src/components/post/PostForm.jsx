@@ -9,12 +9,10 @@ export default function PostForm( {auth, setFormActive, editing, post} ) {
     });
 
     async function handlePost(data) {
-        const formData = {...data, attachment: data.attachment[0]}
-
         if (editing) {
-            await editPost(post.id, formData, auth.token)
+            await editPost(post.id, data, auth.token)
         } else {
-            await newPost(formData, auth.token)
+            await newPost(data.attachment? {...data, attachment: data.attachment[0]} : data, auth.token)
         }
     }
 

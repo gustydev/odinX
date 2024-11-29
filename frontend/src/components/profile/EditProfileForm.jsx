@@ -10,7 +10,7 @@ export default function EditProfileForm( {auth, setEditFormActive, user} ) {
     });
 
     async function submitEdit(data) {
-        await editProfile(auth.user.id, {...data, pic: data.pic[0]}, auth.token)
+        await editProfile(auth.user.id, data.pic ? {...data, pic: data.pic[0]} : data, auth.token)
     }
 
     return (
