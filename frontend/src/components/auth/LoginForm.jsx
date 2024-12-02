@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
-export default function LoginForm( {onSubmit} ) {
+export default function LoginForm( {onSubmit, guestLogin} ) {
     const { register, handleSubmit, formState: { errors} } = useForm();
     
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="auth-form mb-4">
-            <h2>Log in</h2>
+            <h2 className='align-self-center'>Log in</h2>
             <div className='form-group'>
                 <label htmlFor="username">Username*</label>
                 <input
@@ -34,6 +35,10 @@ export default function LoginForm( {onSubmit} ) {
                 {errors.password && <span className="error">{errors.password.message}</span>}
             </div>
             <input type="submit" value="Log in" className="btn btn-primary" />
+            <button className='btn btn-success' onClick={guestLogin}>Log in as guest</button>
+            <Link to='/auth/register' className='btn btn-warning'>
+                Create account
+            </Link>
         </form>
     )
 }

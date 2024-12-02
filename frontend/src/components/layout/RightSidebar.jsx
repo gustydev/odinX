@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from "react-router-dom";
 
 export default function RightSidebar( {socket} ) {
-    const { data: users, loading, error } = useData('user/list');
+    const { data: users, loading, error } = useData('user/list?limit=5');
     const { register, handleSubmit, formState: {errors} } = useForm();
     const navigate = useNavigate();
 

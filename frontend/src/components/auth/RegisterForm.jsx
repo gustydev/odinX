@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { registerUser } from "../../utils/apiRequests";
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function RegisterForm() {
     const { register, handleSubmit, getValues, formState: { errors} } = useForm();
@@ -12,7 +13,7 @@ export default function RegisterForm() {
 
     return (
         <form action="" onSubmit={handleSubmit(onSubmit)} className='auth-form mb-4'>
-            <h2>Register</h2>
+            <h2 className='align-self-center'>Register</h2>
             <div className='form-group'>
                 <label htmlFor="username">Username*:</label>
                 <input
@@ -66,6 +67,9 @@ export default function RegisterForm() {
                 {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}
             </div>
             <button type="submit" className='btn btn-primary'>Register</button>
+            <Link to='/auth/login' className="btn btn-secondary">
+                Return to login
+            </Link>
         </form>
     )
 }

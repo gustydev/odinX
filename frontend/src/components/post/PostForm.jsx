@@ -11,6 +11,7 @@ export default function PostForm( {auth, setFormActive, editing, post} ) {
     async function handlePost(data) {
         if (editing) {
             await editPost(post.id, data, auth.token)
+            // editing doesn't affect the attachment so no need to pass it
         } else {
             await newPost(data.attachment? {...data, attachment: data.attachment[0]} : data, auth.token)
         }
