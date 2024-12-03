@@ -9,6 +9,9 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const prisma = require('./prisma/client');
 const passport = require('passport')
 const { Server } = require('socket.io');
+const compression = require('compression');
+const helmet = require('helmet');
+const RateLimit = require("express-rate-limit");
 
 const server = createServer(app);
 
@@ -17,19 +20,30 @@ const postRoute = require("./routes/post")
 const userRoute = require('./routes/user');
 const searchRoute = require('./routes/search');
 
+const io = new Server(server);
+
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 500, // 500 requests every 15 minutes
+  message: 'Too many requests from this IP, please try again later.'
+});
+
 const corsOptions = {
-  // In production, use the front-end URL; in development, accept any
+  // In production, accept only the front-end URL; in development, accept any
   origin: (process.env.NODE_ENV === 'production') ? process.env.FRONTEND_URL : '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }
 
-const io = new Server(server);
-
+app.use(limiter);
 app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
+
+app.use(compression());
+app.use(helmet())
 
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute)
