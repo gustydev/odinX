@@ -140,7 +140,7 @@ span.error {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 33%;
+    width: 25%;
 }
 
 .modal {
@@ -205,4 +205,31 @@ strong {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 1280px) {
+    .layout {
+        padding: 0;
+    }
+    .modal-form, .auth-form {
+        width: 50%;
+    }
+}
+
+@media (max-width: 800px) {
+    .layout {
+        grid-template-columns: none;
+    }
+    .right-sidebar {
+        grid-row: 2 / 3;
+    }
+    .modal-form, .auth-form {
+        width: 75%;
+    }
+}
+
+@media (max-width: 425px) {
+    .modal-form, .auth-form {
+        width: 100%;
+    }
 }

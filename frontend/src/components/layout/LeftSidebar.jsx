@@ -32,6 +32,11 @@ export default function LeftSidebar() {
                 />
             )}
             </div>
+            {auth.token && (
+                <button onClick={auth.logOut} className={buttonStyle + 'btn-outline-secondary'}>
+                    Log out
+                </button>
+            )}
         </div>
     )
 }
