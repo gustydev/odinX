@@ -9,8 +9,6 @@ user.get('/list', validateToken, controller.getUsersList) // List of users (add 
 user.get('/:userId', convertParams, validateToken, controller.getUserById) // user's details
 user.get('/:userId/posts', convertParams, validateToken, controller.getUserPosts) // user's original posts, replies and liked posts
 
-user.get('/:userId/follows', convertParams) // shows both following and followers
-
 user.post('/:userId/follow', convertParams, validateToken, controller.followUser) // follow an user by id
 
 user.put('/:userId', convertParams, validateToken, checkIfDemo, controller.editProfile) // update profile of user (display name, pfp, bio etc)

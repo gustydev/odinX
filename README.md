@@ -1,10 +1,10 @@
-# Odin-X
+# OdinX
 
-**Odin-X** is a full-stack social networking application with React frontend and Node.js backend, offering user authentication, real-time communication, content management, and media uploads.
+**OdinX** is a full-stack social networking application with React frontend and Node.js backend, offering user authentication, real-time communication, content management, and media uploads.
 
 ## Back-End Overview
 
-The back-end of Odin-X is built with Node.js and Express, providing RESTful APIs, user authentication, real-time communication via WebSockets, and optimizations for security and performance.
+The back-end of OdinX is built with Node.js and Express, providing RESTful APIs, user authentication, real-time communication via WebSockets, and optimizations for security and performance. It uses a PostgreSQL database with Prisma ORM.
 
 ### Features
 - **Authentication**: JWT-based authentication using `passport-jwt`.
@@ -34,8 +34,8 @@ The back-end of Odin-X is built with Node.js and Express, providing RESTful APIs
 #### Installation
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/odin-x.git
-   cd odin-x/back-end
+   git clone https://github.com/gustydev/odinX.git
+   cd odinX/back-end
    ```
 2. Install dependencies:
    ```bash
@@ -52,14 +52,22 @@ The back-end of Odin-X is built with Node.js and Express, providing RESTful APIs
 
 #### Environment Variables
 
-The following environment variables are required to run Odin-X:
+The following environment variables are required to run OdinX (set them up on .env files on the backend and frontend folders respectively):
 
+##### Back-end
 ```env
 PORT=3000
 SECRET=your_jwt_secret
 FRONTEND_URL=https://frontend.com # Only needed in production
 NODE_ENV=development
 CLOUDINARY_URL=cloudinary://your_user:your_pass@code
+```
+
+##### Front-end
+```env
+VITE_API_URL=http://localhost:3000
+VITE_DEMO_USERNAME=guest_user
+VITE_DEMO_PASSWORD=guest_password
 ```
 
 ### API Endpoints
@@ -118,6 +126,7 @@ CLOUDINARY_URL=cloudinary://your_user:your_pass@code
 - **Socket.IO Client** for real-time updates
 - **React Hook Form** for form management
 - **React Toastify** for notifications
+- **Bootstrap** for creating responsive and visually appealing interfaces
 
 ### Features
 1. **Authentication**: Register, login, and guest login.
