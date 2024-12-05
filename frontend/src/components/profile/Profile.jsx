@@ -52,9 +52,8 @@ export default function Profile() {
                 <p>Member since {dateFormat(user.joinDate)}</p>
                 <p>{user._count.followers} followers</p>
                 <p>{user._count.following} following</p>
-                
             </div>
-            <div className='btn-group d-flex mt-3 mb-4'>
+            <div className='btn-group d-flex mt-3 mb-4 tab-select'>
                 <button className={buttonStyle + (tab === 'posts' ? 'active' : '')} onClick={() => setTab('posts')}>
                     Posts
                 </button>

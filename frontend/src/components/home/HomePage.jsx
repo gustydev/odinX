@@ -3,6 +3,7 @@ import { useData } from "../../hooks/useData/useData";
 import Loading from '../loading/Loading';
 import FetchError from '../errors/FetchError';
 import PostList from "../post/PostList";
+import SearchForm from "../search/SearchForm";
 
 const buttonStyle = 'btn btn-outline-dark font-weight-bold rounded-0 '
 
@@ -50,7 +51,7 @@ export default function HomePage() {
             <div className='page-bar'>
                 <h2>Home</h2>
             </div>
-            <div className='btn-group d-flex mb-4'>
+            <div className='btn-group d-flex mb-4 tab-select'>
                 <button className={buttonStyle + (tab === 'all' ? 'active' : '')} onClick={() => setTab('all')}>
                     Explore all posts
                 </button>

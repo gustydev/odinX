@@ -1,12 +1,9 @@
-import { useState } from "react";
 import useAuth from "../../hooks/useAuth/useAuth";
 import { useNavigate } from "react-router-dom";
-import PostForm from "../post/PostForm";
 
 const buttonStyle = 'btn fw-bold rounded-0 ';
 
-export default function LeftSidebar() {
-    const [postFormActive, setPostFormActive] = useState(false);
+export default function LeftSidebar( {setPostFormActive} ) {
     const navigate = useNavigate();
     const auth = useAuth();
 
@@ -24,17 +21,9 @@ export default function LeftSidebar() {
             <button className='btn btn-primary fw-bold rounded-0' onClick={() => setPostFormActive(true)}>
                 🖉 New Post
             </button>
-            <div className={"modal " + (postFormActive ? 'd-block' : 'd-none')}>
-            {postFormActive && (
-                <PostForm 
-                    auth={auth} 
-                    setFormActive={setPostFormActive} 
-                />
-            )}
-            </div>
             {auth.token && (
                 <button onClick={auth.logOut} className={buttonStyle + 'btn-outline-secondary'}>
-                    Log out
+                    ⎋ Log out
                 </button>
             )}
         </div>
