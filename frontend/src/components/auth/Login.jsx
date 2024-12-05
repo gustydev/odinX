@@ -11,6 +11,7 @@ export default function Login() {
 
     async function guestLogin(e) {
         e.preventDefault()
+        
         const data = {
             username: import.meta.env.VITE_DEMO_USERNAME,
             password: import.meta.env.VITE_DEMO_PASSWORD,
