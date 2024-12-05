@@ -30,10 +30,10 @@ export default function UserInfo( {user, socket, isListItem} ) {
                     <div>
                         <Link to={`/user/${userInfo.id}`} className='profile-link'>
                             <strong>{userInfo.displayName}</strong>
+                            <p>
+                                @{userInfo.username}
+                            </p>
                         </Link>
-                        <p>
-                            @{userInfo.username}
-                        </p>
                     </div>
                 </div>
             </div>

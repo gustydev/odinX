@@ -146,6 +146,10 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
         throw new ForbiddenError('Cannot delete another user')
     }
 
+    if (user.demo) {
+        throw new ForbiddenError('Cannot delete demo account!')
+    }
+
     // Delete uploaded files
     if (user.attachmentId) {
         await cloudinary.uploader.destroy(user.attachmentId).then(() => console.log('File deleted from cloud: ', user.attachmentId))
