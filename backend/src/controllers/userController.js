@@ -118,12 +118,15 @@ exports.editProfile = [
             })
         }
 
-        if (req.body.deletePic) {
-            imgUrl = null;
-            fileId = null;
+        if ((current.profilePicUrl && req.file) || req.body.deletePic) {
+            // Delete from cloud if new pic is uploaded or pic deletion is requested
+            await cloudinary.uploader.destroy(current.attachmentId)
+            console.log('File deleted from cloud: ', current.attachmentId)
 
-            await cloudinary.uploader.destroy(current.attachmentId).then(() => console.log('File deleted from cloud: ', current.attachmentId))
-            // Delete image from cloud
+            if (req.body.deletePic) {
+                imgUrl = null;
+                fileId = null;
+            }
         }
         
         const user = await prisma.user.update({...userQuery, where: { id: req.params.userId },
@@ -152,14 +155,16 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 
     // Delete uploaded files
     if (user.attachmentId) {
-        await cloudinary.uploader.destroy(user.attachmentId).then(() => console.log('File deleted from cloud: ', user.attachmentId))
+        await cloudinary.uploader.destroy(user.attachmentId)
+        console.log('File deleted from cloud: ', user.attachmentId)
     }
 
     const posts = await prisma.post.findMany({where: {authorId: req.params.userId}});
 
     posts.forEach(async (post) => {
         if (post.attachmentId) {
-            await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('File deleted from cloud: ', post.attachmentId));
+            await cloudinary.uploader.destroy(post.attachmentId)
+            console.log('File deleted from cloud: ', post.attachmentId);
         }
     })
 

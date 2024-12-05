@@ -190,7 +190,8 @@ exports.deletePost = asyncHandler(async (req, res, next) => {
     }
 
     if (post.attachmentId) {
-        await cloudinary.uploader.destroy(post.attachmentId).then(() => console.log('File deleted from cloud: ', post.attachmentId))
+        await cloudinary.uploader.destroy(post.attachmentId)
+        console.log('File deleted from cloud: ', post.attachmentId)
         // Delete attachment from cloud
     }
 

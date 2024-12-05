@@ -18,7 +18,8 @@ exports.register = [
                 username: req.body.username,
                 password: hashedPass,
                 displayName: req.body.displayName || req.body.username,
-                demo: req.body.demo
+                demo: req.body.demo,
+                bio: '' // having it be null causes issues
             }
         })
 
