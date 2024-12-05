@@ -4,7 +4,7 @@
 
 ## Back-End Overview
 
-The back-end of OdinX is built with Node.js and Express, providing RESTful APIs, user authentication, real-time communication via WebSockets, and optimizations for security and performance. It uses a PostgreSQL database with Prisma ORM.
+The back-end of OdinX is built with Node.js and Express, providing RESTful APIs, user authentication, real-time communication via WebSockets, and optimizations for security and performance. It uses a PostgreSQL database with Prisma ORM, and tests the API routes with Jest and Supertest.
 
 ### Features
 - **Authentication**: JWT-based authentication using `passport-jwt`.
@@ -23,6 +23,17 @@ The back-end of OdinX is built with Node.js and Express, providing RESTful APIs,
 
 - **Real-Time Events**:
     - Real-time updates via Socket.IO: `likePost`, `postReply`, `followUser`
+
+### Unit and Integration Tests
+The API includes comprehensive testing for key routes, using Jest and Supertest to validate endpoints for user authentication, post creation, likes, replies, and user interactions such as following.
+
+Example tests include:
+
+- Authentication: Ensures registration and login functionality works with various scenarios (e.g., valid/invalid credentials).
+- Post Routes: Tests creation, editing, and interactions like likes and replies.
+- User Routes: Verifies actions like following/unfollowing users.
+
+The test setup includes a mock Express server and utility functions for clear database states, facilitating reliable and isolated testing of route logic.
 
 ### Installation and Setup
 
